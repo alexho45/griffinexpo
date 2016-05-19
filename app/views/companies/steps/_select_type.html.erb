@@ -1,0 +1,13 @@
+
+<h2>Welcome to the Griffin Greenhouse EXPO Registration</h2><br>
+<h2>Would you like to register as?</h2>
+
+<%= form_for @company, { url: select_type_companies_path, method: :post } do |f| %>
+  <%= f.radio_button :company_type, :vendor, checked: true %> 
+  <%= label :company_type_vendor, 'Vendor/Exhibitor' %>
+  <%= f.radio_button :company_type, :customer %>
+  <%= label :company_type_customer, 'Customer/Attendee' %>
+  <%= f.hidden_field :process_step, value: :select_event %>
+  <br>
+  <%= f.submit 'NEXT', class: 'btn btn-primary' %>
+<% end %>

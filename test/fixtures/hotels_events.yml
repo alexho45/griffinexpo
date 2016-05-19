@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  hotel_id: 
+  event_id: 
+  quantiry: 1
+
+two:
+  hotel_id: 
+  event_id: 
+  quantiry: 1

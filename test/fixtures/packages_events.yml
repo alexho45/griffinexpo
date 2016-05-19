@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  package_id: 
+  event_id: 
+  quantity: 1
+  electricity: false
+
+two:
+  package_id: 
+  event_id: 
+  quantity: 1
+  electricity: false
