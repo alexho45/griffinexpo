@@ -1,0 +1,27 @@
+
+<h4>PLEASE SELECT A NEXT</h4>
+
+<%= form_tag(select_packages_companies_path, method: :post) do %>
+  <%= Package.find_each.with_index do |package, index| %>
+    <h4>
+      <%= check_box_tag "packages[#{package.id}][checked]", package.id %> 
+      <%= package.full_name.html_safe %>
+    </h4>
+    Number of Booths Required:
+    <%= text_field_tag "packages[#{package.id}][quantity]", 1 %>
+    <br>
+    Do you require electricity for your booth:
+    <%= radio_button_tag "packages[#{package.id}][electricity]", 1, checked: true %> Yes
+    <%= radio_button_tag "packages[#{package.id}][electricity]", 0 %> No
+    <hr>
+  <% end %>
+  <hr>
+
+  <h4>
+    If you require additional booth decorations, products and or setup services, please 
+    <a href="http://SER.COM/griffinevent" target="_blank">click here</a>
+    for our expo partner services.
+  </h4>
+
+  <%= submit_tag 'NEXT', class: 'btn btn-primary' %>
+<% end %>

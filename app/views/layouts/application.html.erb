@@ -8,7 +8,27 @@
 </head>
 <body>
 
-<%= yield %>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Griffinexpo</a>
+        <%= link_to 'New Registration', new_registration_companies_path, method: :post, data: { confirm: "Are you sure? You will lost current status." }, class: 'navbar-brand' %>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container theme-showcase">
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-2">
+          <%= image_tag 'griffinexpo_logo.png', class: 'logo_image' %>
+        </div>
+        <div class="col-md-10">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

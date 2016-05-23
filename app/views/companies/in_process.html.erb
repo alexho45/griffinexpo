@@ -1,6 +1,8 @@
 
 <% if @company.new_record? %>
-  <%= render "companies/steps/select_type" %>
+  <%= render "companies/steps/common/select_type" %>
 <% else %>
-  <%= render "companies/steps/#{@company.process_step}" %>
+  <%= render "companies/steps/#{@company.company_type}/#{@company.process_step}" %>
 <% end %>
+
+<%= "companies/steps/#{@company.company_type}/#{@company.process_step}" %>

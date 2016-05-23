@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519073537) do
+ActiveRecord::Schema.define(version: 20160520095928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,16 @@ ActiveRecord::Schema.define(version: 20160519073537) do
     t.datetime "updated_at",           null: false
   end
 
+  create_table "companies_attendees", force: :cascade do |t|
+    t.integer  "company_id"
+    t.integer  "attendee_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "companies_attendees", ["attendee_id"], name: "index_companies_attendees_on_attendee_id", using: :btree
+  add_index "companies_attendees", ["company_id"], name: "index_companies_attendees_on_company_id", using: :btree
+
   create_table "companies_events", force: :cascade do |t|
     t.integer  "company_id"
     t.integer  "event_id"
@@ -135,12 +145,14 @@ ActiveRecord::Schema.define(version: 20160519073537) do
   create_table "packages_events", force: :cascade do |t|
     t.integer  "package_id"
     t.integer  "event_id"
+    t.integer  "company_id"
     t.integer  "quantity"
     t.boolean  "electricity"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
+  add_index "packages_events", ["company_id"], name: "index_packages_events_on_company_id", using: :btree
   add_index "packages_events", ["event_id"], name: "index_packages_events_on_event_id", using: :btree
   add_index "packages_events", ["package_id"], name: "index_packages_events_on_package_id", using: :btree
 
@@ -162,11 +174,12 @@ ActiveRecord::Schema.define(version: 20160519073537) do
 
   create_table "questions_events", force: :cascade do |t|
     t.integer  "question_id"
-    t.string   "event_references"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "event_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
+  add_index "questions_events", ["event_id"], name: "index_questions_events_on_event_id", using: :btree
   add_index "questions_events", ["question_id"], name: "index_questions_events_on_question_id", using: :btree
 
   add_foreign_key "attendees", "companies"
@@ -176,13 +189,17 @@ ActiveRecord::Schema.define(version: 20160519073537) do
   add_foreign_key "buses_attendees", "buses"
   add_foreign_key "buses_events", "buses"
   add_foreign_key "buses_events", "events"
+  add_foreign_key "companies_attendees", "attendees"
+  add_foreign_key "companies_attendees", "companies"
   add_foreign_key "companies_events", "companies"
   add_foreign_key "companies_events", "events"
   add_foreign_key "hotels_events", "events"
   add_foreign_key "hotels_events", "hotels"
+  add_foreign_key "packages_events", "companies"
   add_foreign_key "packages_events", "events"
   add_foreign_key "packages_events", "packages"
   add_foreign_key "questions_answers", "answers"
   add_foreign_key "questions_answers", "questions"
+  add_foreign_key "questions_events", "events"
   add_foreign_key "questions_events", "questions"
 end

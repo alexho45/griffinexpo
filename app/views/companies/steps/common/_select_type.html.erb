@@ -5,8 +5,10 @@
 <%= form_for @company, { url: select_type_companies_path, method: :post } do |f| %>
   <%= f.radio_button :company_type, :vendor, checked: true %> 
   <%= label :company_type_vendor, 'Vendor/Exhibitor' %>
+  <br>
   <%= f.radio_button :company_type, :customer %>
   <%= label :company_type_customer, 'Customer/Attendee' %>
+  <br>
   <%= f.hidden_field :process_step, value: :select_event %>
   <br>
   <%= f.submit 'NEXT', class: 'btn btn-primary' %>

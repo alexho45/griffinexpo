@@ -1,0 +1,20 @@
+
+<h3>BOOTH ORDER VERIFICATION</h3>
+
+<h4>You have selected the following options:</h4>
+
+<% @company.packages_events.each do |packages_event| %>
+  <%= packages_event.package.full_name.html_safe %>
+  <br>Quantity: <%= packages_event.quantity %>
+  <br>Electricity Required: <%= packages_event.electricity %>
+  <br>
+<% end %>
+
+<h4>Subtotal = $<%= @company.subtotal %></h4>
+
+<br>
+
+<h4>If this is correct, please click next for payment method selection</h4>
+
+<%= link_to 'BACK', select_payment_system_companies_path(step_back: true), method: :post, class: 'btn btn-primary' %>
+<%= link_to 'NEXT', select_payment_system_companies_path, method: :post, class: 'btn btn-primary' %>

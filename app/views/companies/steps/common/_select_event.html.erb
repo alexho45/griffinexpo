@@ -5,9 +5,10 @@
 
 <%= form_tag(select_event_companies_path, method: :post) do %>
   <%= Event.find_each.with_index do |event, index| %>
-    <%= radio_button_tag :event_id, event.id, checked: false %> 
-    <%= label :event_title, event.full_name %>
-    <br>
+    <h4>
+      <%= radio_button_tag :event_id, event.id, checked: false %> 
+      <%= event.full_name %>
+    </h4>
   <% end %>
   <br>
   <%= submit_tag 'NEXT', class: 'btn btn-primary' %>

@@ -1,0 +1,66 @@
+
+<h4>
+  You have selected to register for the: <%= @company.event.full_name %>
+  <br>
+  Please fill in the required information below
+</h4>
+<br>
+
+<%= form_for @company, url: save_info_and_attendees_companies_path, method: :post, html: { class: 'form-horizontal' } do |f| %>
+  <div class="form-group">
+    <%= f.label :name, 'Company name:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :registrant, 'Registrant/Representative:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :registrant, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :address, 'Company Address:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :address, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :representative_email, 'Representative Email:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :representative_email, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :representative_phone, 'Representative Phone:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :representative_phone, class: "form-control" %>
+    </div>
+  </div>
+  <br>
+
+  <h3>Attendees</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= f.fields_for :attendees do |attendee| %>
+        <%= render 'attendees/form', f: attendee %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to_add_association 'add attendee', f, :attendees, partial: 'attendees/form', class: 'btn btn-success', 'data-association-insertion-method' => 'append','data-association-insertion-node' => 'tbody' %>
+
+  <br>
+  <br>
+  <br>
+
+  <%= f.submit 'NEXT', class: 'btn btn-primary' %>
+<% end %>
