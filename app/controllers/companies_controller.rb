@@ -8,6 +8,8 @@ class CompaniesController < ApplicationController
 
   def in_process
     puts "IN PROCESS session: #{session[:company_access_token]}"
+
+
   end
 
   def select_type
@@ -38,20 +40,50 @@ class CompaniesController < ApplicationController
     redirect_to in_process_companies_path
   end
 
+  def select_accommodations
+    if params[:step_back].present?
+      @company.set_step(:packages_order_verification)
+    else
+      @company.apply_payment(company_params[:payment_type])
+      @company.set_step(:select_accommodations)
+    end
+    redirect_to in_process_companies_path
+  end
+
+  def verification
+    if params[:step_back].present?
+      @company.set_step(:select_payment_type)
+    else
+      @company.hotels_events.destroy_all
+      create_hotels_events
+      @company.set_step(:verification)
+    end
+    redirect_to in_process_companies_path
+  end
+
+  def confirmation
+    if params[:step_back].present?
+      @company.set_step(:select_accommodations)
+    else
+      @company.complete_registration
+    end
+    redirect_to in_process_companies_path
+  end
+
   # Vendor actions
 
   def select_packages
-    create_packages
+    @company.packages_events.destroy_all
+    create_packages_events
     @company.set_step(:packages_order_verification)
     redirect_to in_process_companies_path
   end
 
-  def select_payment_system
-    if params[:step_back].present? && !!params[:step_back]
-      @company.packages_events.destroy_all
+  def select_payment_type
+    if params[:step_back].present?
       @company.set_step(:select_packages)
     else
-      @company.set_step(:select_payment_system)
+      @company.set_step(:select_payment_type)
     end
     redirect_to in_process_companies_path
   end
@@ -66,13 +98,15 @@ class CompaniesController < ApplicationController
     def find_company
       @company =
         if session[:company_access_token].present? && Company.exists?(access_token: session[:company_access_token])
-          Company.find_by(access_token: session[:company_access_token])
+          Company
+            .includes(:event ,:attendees, :packages, :hotels)
+            .find_by(access_token: session[:company_access_token])
         else
           Company.new
         end
     end
 
-    def create_packages
+    def create_packages_events
       params[:packages].each do |packages|
         if packages.second["checked"]
           package_id = packages.first
@@ -80,7 +114,19 @@ class CompaniesController < ApplicationController
                                company_id:  @company.id,
                                event_id:    @company.event.id,
                                quantity:    packages.second["quantity"],
-                               electricity: packages.second["electricity"])
+                               electricity: packages.second["electricity"].to_i == 1)
+        end
+      end
+    end
+
+    def create_hotels_events
+      params[:hotels].each do |hotels|
+        if hotels.second["checked"] == 'true'
+          hotel_id = hotels.first
+          HotelsEvent.create(hotel_id:    hotel_id,
+                             company_id:  @company.id,
+                             event_id:    @company.event.id,
+                             quantity:    hotels.second["quantity"])
         end
       end
     end

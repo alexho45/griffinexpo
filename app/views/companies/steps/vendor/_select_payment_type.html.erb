@@ -1,0 +1,16 @@
+
+<h4>PAYMENT METHOD SELECTION</h4>
+Please select your payment method:
+
+<%= form_for @company, url: select_accommodations_companies_path, method: :post do |f| %>
+  <h4><%= f.radio_button :payment_type, :credit_card, checked: true %> Credit Card</h4>
+  <h4><%= f.radio_button :payment_type, :check %> Check</h4>
+  <h4><%= f.radio_button :payment_type, :debit_memo %> Debit Memo</h4>
+  <h4><%= f.radio_button :payment_type, :other %> Other</h4>
+
+  <h4>Amount Due: $<%= @company.subtotal %></h4>
+
+  <%= f.submit 'BACK', class: 'btn btn-primary', name: :step_back %>
+  <%= f.submit 'NEXT', class: 'btn btn-primary' %>
+<% end %>
+

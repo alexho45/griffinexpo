@@ -126,11 +126,13 @@ ActiveRecord::Schema.define(version: 20160520095928) do
   create_table "hotels_events", force: :cascade do |t|
     t.integer  "hotel_id"
     t.integer  "event_id"
-    t.integer  "quantiry"
+    t.integer  "company_id"
+    t.integer  "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_index "hotels_events", ["company_id"], name: "index_hotels_events_on_company_id", using: :btree
   add_index "hotels_events", ["event_id"], name: "index_hotels_events_on_event_id", using: :btree
   add_index "hotels_events", ["hotel_id"], name: "index_hotels_events_on_hotel_id", using: :btree
 
@@ -193,6 +195,7 @@ ActiveRecord::Schema.define(version: 20160520095928) do
   add_foreign_key "companies_attendees", "companies"
   add_foreign_key "companies_events", "companies"
   add_foreign_key "companies_events", "events"
+  add_foreign_key "hotels_events", "companies"
   add_foreign_key "hotels_events", "events"
   add_foreign_key "hotels_events", "hotels"
   add_foreign_key "packages_events", "companies"

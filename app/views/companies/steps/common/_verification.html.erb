@@ -1,0 +1,31 @@
+
+<h3>Thank you for registering for the <%= @company.event.full_name %></h3>
+
+<h4>ou have registered for:</h4>
+
+<h4>
+  <%= @company.attendees.count %> x Attendees
+  <br>
+  <%= @company.attendees.map(&:full_name).join(', ') %>
+
+  <% if @company.vendor? %>
+    <br>
+    <% @company.packages_events.each do |packages_event| %>
+      <%= packages_event.quantity %> x <%= packages_event.package.full_name.html_safe %>
+      <br>Electricity required = <%= packages_event.electricity %>
+    <% end %>
+    <br>Payment method = <%= @company.payment_type.titleize %>
+  <% else %>
+    Bus Transportation Required = Yes
+    <br>
+    Bus/Route Assigned = MA EXPO BUS #2
+    <br>
+  <% end %>
+
+  <br>
+  Hotel/Lodging Accomodations Required <%= @company.hotels.any? %>
+  of Required = <%= @company.hotels_events.sum(:quantity) %>
+</h4>
+
+<%= link_to 'BACK', confirmation_companies_path(step_back: true), method: :post, class: 'btn btn-primary' %>
+<%= link_to 'NEXT', confirmation_companies_path, method: :post, class: 'btn btn-primary' %>
