@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160520095928) do
+ActiveRecord::Schema.define(version: 20160525070621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,16 @@ ActiveRecord::Schema.define(version: 20160520095928) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end
+
+  create_table "companies_answers", force: :cascade do |t|
+    t.integer  "company_id"
+    t.integer  "answer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "companies_answers", ["answer_id"], name: "index_companies_answers_on_answer_id", using: :btree
+  add_index "companies_answers", ["company_id"], name: "index_companies_answers_on_company_id", using: :btree
 
   create_table "companies_attendees", force: :cascade do |t|
     t.integer  "company_id"
@@ -191,6 +201,8 @@ ActiveRecord::Schema.define(version: 20160520095928) do
   add_foreign_key "buses_attendees", "buses"
   add_foreign_key "buses_events", "buses"
   add_foreign_key "buses_events", "events"
+  add_foreign_key "companies_answers", "answers"
+  add_foreign_key "companies_answers", "companies"
   add_foreign_key "companies_attendees", "attendees"
   add_foreign_key "companies_attendees", "companies"
   add_foreign_key "companies_events", "companies"

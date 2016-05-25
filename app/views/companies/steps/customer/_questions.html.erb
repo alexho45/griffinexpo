@@ -1,4 +1,21 @@
 
-questions
+<h4>EXPO EVENTS SCHEDULING</h4>
 
-(trigger for standard questions after select_event action)
+<%= form_tag(questions_companies_path, method: :post) do %>
+
+  <% @company.event.questions.each do |question| %>
+    <h4><%= question.title %></h4>
+    <% question.answers.each do |possible_answer| %>
+      <% company_answer = @company.companies_answers.select{|ca| ca.answer_id == possible_answer.id } %>
+      <h5>
+        <%= radio_button_tag "answers[#{possible_answer.id}][checked]", true, checked = false %>
+        <%= possible_answer.title %>
+      </h5>
+    <% end %>
+    <br>
+  <% end %>
+
+  <%= submit_tag 'NEXT', class: 'btn btn-primary' %>
+
+<% end %>
+

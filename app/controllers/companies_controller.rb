@@ -1,15 +1,14 @@
 class CompaniesController < ApplicationController
   before_action :find_company
 
+  # Common actions
+
   def new_registration
-    session[:company_access_token] = nil
+    session.delete(:company_access_token)
     redirect_to root_path
   end
 
   def in_process
-    puts "IN PROCESS session: #{session[:company_access_token]}"
-
-
   end
 
   def select_type
@@ -25,7 +24,7 @@ class CompaniesController < ApplicationController
     event = Event.find(params[:event_id]) if params[:event_id].present?
     if event
       @company.event = event
-      @company.set_step(:company_info)
+      @company.next_step
       Question.generate_standard_questions(@company)
     end
     redirect_to in_process_companies_path
@@ -34,72 +33,89 @@ class CompaniesController < ApplicationController
   def save_info_and_attendees
     if @company.update_attributes(company_params)
       @company.event.attendees << @company.attendees
-      step = @company.vendor? ? :select_packages : :questions
-      @company.set_step(step)
+      @company.next_step
     end
     redirect_to in_process_companies_path
   end
 
+  # Vendor custom actions
+
+  def select_packages
+    @company.packages_events.destroy_all
+    create_packages_events
+    @company.next_step
+    redirect_to in_process_companies_path
+  end
+
+  def select_payment_type
+    if params[:step_back].present?
+      @company.previous_step
+    else
+      @company.next_step      
+    end
+    redirect_to in_process_companies_path
+  end
+
+  # Customer custom actions
+
+  def questions
+    @company.companies_answers.destroy_all
+    create_companies_answers
+    @company.next_step
+    redirect_to in_process_companies_path
+  end
+
+  def select_buses
+    # @company.companies_buses.destroy_all
+    # create_companies_buses
+    if params[:step_back].present?
+      @company.previous_step
+    else
+      @company.next_step      
+    end
+    redirect_to in_process_companies_path
+  end
+
+  # End of custom actions
+
   def select_accommodations
     if params[:step_back].present?
-      @company.set_step(:packages_order_verification)
+      @company.previous_step
     else
       @company.apply_payment(company_params[:payment_type])
-      @company.set_step(:select_accommodations)
+      @company.next_step
     end
     redirect_to in_process_companies_path
   end
 
   def verification
     if params[:step_back].present?
-      @company.set_step(:select_payment_type)
+      @company.previous_step
     else
       @company.hotels_events.destroy_all
       create_hotels_events
-      @company.set_step(:verification)
+      @company.next_step
     end
     redirect_to in_process_companies_path
   end
 
   def confirmation
     if params[:step_back].present?
-      @company.set_step(:select_accommodations)
+      @company.previous_step
     else
       @company.complete_registration
     end
     redirect_to in_process_companies_path
   end
 
-  # Vendor actions
-
-  def select_packages
-    @company.packages_events.destroy_all
-    create_packages_events
-    @company.set_step(:packages_order_verification)
-    redirect_to in_process_companies_path
-  end
-
-  def select_payment_type
-    if params[:step_back].present?
-      @company.set_step(:select_packages)
-    else
-      @company.set_step(:select_payment_type)
-    end
-    redirect_to in_process_companies_path
-  end
-
-  # Customer actions
-
-  def questions
-    redirect_to in_process_companies_path
-  end
+  # End of actions
 
   private
     def find_company
       @company =
         if session[:company_access_token].present? && Company.exists?(access_token: session[:company_access_token])
           Company
-            .includes(:event ,:attendees, :packages, :hotels)
+            .includes(:event ,:attendees, :packages, :hotels, :answers)
             .find_by(access_token: session[:company_access_token])
         else
           Company.new
@@ -129,6 +145,14 @@ class CompaniesController < ApplicationController
                              quantity:    hotels.second["quantity"])
         end
       end
+    end
+
+    def create_companies_answers
+
+    end
+
+    def create_companies_buses
+
     end
 
     def company_params
