@@ -25,7 +25,6 @@ class CompaniesController < ApplicationController
     if event
       @company.event = event
       @company.next_step
-      Question.generate_standard_questions(@company)
     end
     redirect_to in_process_companies_path
   end
@@ -123,32 +122,45 @@ class CompaniesController < ApplicationController
     end
 
     def create_packages_events
-      params[:packages].each do |packages|
-        if packages.second["checked"]
-          package_id = packages.first
+      params[:packages].each do |package|
+        if package.second["checked"]
+          package_id = package.first
           PackagesEvent.create(package_id:  package_id,
                                company_id:  @company.id,
                                event_id:    @company.event.id,
-                               quantity:    packages.second["quantity"],
-                               electricity: packages.second["electricity"].to_i == 1)
+                               quantity:    package.second["quantity"],
+                               electricity: package.second["electricity"].to_i == 1)
         end
       end
     end
 
     def create_hotels_events
-      params[:hotels].each do |hotels|
-        if hotels.second["checked"] == 'true'
-          hotel_id = hotels.first
+      params[:hotels].each do |hotel|
+        if hotel.second["checked"] == 'true'
+          hotel_id = hotel.first
           HotelsEvent.create(hotel_id:    hotel_id,
                              company_id:  @company.id,
                              event_id:    @company.event.id,
-                             quantity:    hotels.second["quantity"])
+                             quantity:    hotel.second["quantity"])
         end
       end
     end
 
     def create_companies_answers
-
+      params[:questions].each do |question|
+        question_id = question.first
+        answer_id = question.second["answer_id"]
+        CompaniesAnswer.create(question_id: question_id,
+                               answer_id:   answer_id,
+                               company_id:  @company.id)
+      end
+      params[:questions_with_text].each do |question|
+        question_id = question.first
+        answer = Answer.create(value: question.second["answer_id"])
+        CompaniesAnswer.create(question_id: question_id,
+                               answer_id:   answer.id,
+                               company_id:  @company.id)
+      end
     end
 
     def create_companies_buses

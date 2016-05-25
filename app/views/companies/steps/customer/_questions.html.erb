@@ -3,15 +3,24 @@
 
 <%= form_tag(questions_companies_path, method: :post) do %>
 
-  <% @company.event.questions.each do |question| %>
+  <% @company.event.questions.where(text_field: false).each do |question| %>
     <h4><%= question.title %></h4>
-    <% question.answers.each do |possible_answer| %>
-      <% company_answer = @company.companies_answers.select{|ca| ca.answer_id == possible_answer.id } %>
+    <% question.answers.each_with_index do |possible_answer, index| %>
+      <% company_answer = @company.companies_answers.select{|ca| ca.answer_id == possible_answer.id }.first %>
       <h5>
-        <%= radio_button_tag "answers[#{possible_answer.id}][checked]", true, checked = false %>
+        <%= radio_button_tag "questions[#{question.id}][answer_id]", possible_answer.id, checked = company_answer.present? ? true : (index == 0 ? true : false) %>
         <%= possible_answer.title %>
       </h5>
     <% end %>
+    <br>
+  <% end %>
+
+  <% @company.event.questions.where(text_field: true).each do |question| %>
+    <h4><%= question.title %></h4>
+    <p>
+      <% company_answer = @company.companies_answers.select{|ca| ca.question_id == question.id }.first %>
+      <%= text_field_tag "questions_with_text[#{question.id}][answer_id]", company_answer.try(:answer).try(:value), class: "form-control" %>
+    </p>
     <br>
   <% end %>
 

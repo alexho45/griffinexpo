@@ -9,7 +9,13 @@ class Event < ActiveRecord::Base
   has_many :questions, :through => :questions_events
   has_many :questions_events
 
+  after_create :init_questions
+
   def full_name
     "#{title} #{from.strftime("%d %b")} - #{to.strftime("%d %b")} (#{location})"
+  end
+
+  def init_questions
+    Question.generate_standard_questions(self)
   end
 end
