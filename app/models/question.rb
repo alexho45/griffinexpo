@@ -1,7 +1,7 @@
 class Question < ActiveRecord::Base
 
   has_many :answers, through: :questions_answers
-  has_many :questions_answers
+  has_many :questions_answers, dependent: :destroy
 
   def self.generate_standard_questions(event)
     event_days_total = (event.to - event.from).to_i

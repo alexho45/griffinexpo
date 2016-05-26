@@ -18,8 +18,13 @@
   <% else %>
     Bus Transportation Required = Yes
     <br>
-    Bus/Route Assigned = MA EXPO BUS #2
-    <br>
+    Bus/Route Assigned = 
+    <% @company.event.buses.each_with_index do |bus, index| %>
+      <% if (bus.attendees & @company.attendees).any? %>
+        <%= "MA EXPO BUS ##{index+1}" %>
+        <%= ", " if index+1 != @company.event.buses.size %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <br>

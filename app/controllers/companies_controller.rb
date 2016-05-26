@@ -58,18 +58,16 @@ class CompaniesController < ApplicationController
   # Customer custom actions
 
   def questions
-    @company.companies_answers.destroy_all
     create_companies_answers
     @company.next_step
     redirect_to in_process_companies_path
   end
 
   def select_buses
-    # @company.companies_buses.destroy_all
-    # create_companies_buses
     if params[:step_back].present?
       @company.previous_step
     else
+      create_buses_events
       @company.next_step      
     end
     redirect_to in_process_companies_path
@@ -91,7 +89,6 @@ class CompaniesController < ApplicationController
     if params[:step_back].present?
       @company.previous_step
     else
-      @company.hotels_events.destroy_all
       create_hotels_events
       @company.next_step
     end
@@ -135,6 +132,7 @@ class CompaniesController < ApplicationController
     end
 
     def create_hotels_events
+      @company.hotels_events.destroy_all
       params[:hotels].each do |hotel|
         if hotel.second["checked"] == 'true'
           hotel_id = hotel.first
@@ -147,6 +145,7 @@ class CompaniesController < ApplicationController
     end
 
     def create_companies_answers
+      @company.companies_answers.destroy_all
       params[:questions].each do |question|
         question_id = question.first
         answer_id = question.second["answer_id"]
@@ -156,15 +155,31 @@ class CompaniesController < ApplicationController
       end
       params[:questions_with_text].each do |question|
         question_id = question.first
-        answer = Answer.create(value: question.second["answer_id"])
+        answer = Answer.create(value:       question.second["answer_id"])
         CompaniesAnswer.create(question_id: question_id,
                                answer_id:   answer.id,
                                company_id:  @company.id)
       end
     end
 
-    def create_companies_buses
-
+    def create_buses_events
+      @company.event.buses.each do |bus|
+        bus.attendees.destroy_all
+      end
+      if params[:checked_buses].present? && params[:checked_buses] == "true"
+        attendees = @company.attendees.dup
+        params[:buses].each do |bus|
+          bus = Bus.find(bus.first.to_i)
+          if attendees.count > bus.available_seats
+            attendees_to_bus = attendees.first(bus.available_seats).dup
+            attendees -= attendees_to_bus
+          else
+            attendees_to_bus = attendees.dup
+            attendees -= attendees_to_bus
+          end
+          bus.attendees << attendees_to_bus
+        end
+      end
     end
 
     def company_params
