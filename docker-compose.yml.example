@@ -1,0 +1,22 @@
+postgres:
+  image: postgres:9.4
+  ports:
+    - '5432:5432'
+  volumes:
+    - griffinexpo-postgres:/var/lib/postgresql/data
+  environment:
+    - POSTGRES_USER=griffinexpo
+    - POSTGRES_PASSWORD=yourpassword
+
+griffinexpo:
+  build: .
+  ports:
+    - '80:80'
+  volumes:
+    - .:/griffinexpo
+  environment:
+    - SECRET_TOKEN=f69ef210a8ebd4af36cf071be69267a7d106803807f5050baed9c024c40bbfcf1816390013bfc565df7e1b0869f46713f07e6bb7083cd34af695beebfbcf21ff
+    - DATABASE_URL=postgresql://griffinexpo:yourpassword@postgres:5432/griffinexpo?encoding=utf8&pool=5&timeout=5000
+    - RAILS_ENV=development
+  links:
+    - postgres

@@ -22,5 +22,12 @@ module Griffinexpo
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # We want to set up a custom logger which logs to STDOUT.
+    # Docker expects your application to log to STDOUT/STDERR and to be ran
+    # in the foreground.
+    config.log_level = :debug
+    config.log_tags  = [:subdomain, :uuid]
+    config.logger    = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   end
 end
