@@ -31,9 +31,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-handlers'
 gem 'puma'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 group :development, :test do
   gem 'pry-byebug'
 end
@@ -44,5 +41,9 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-end
 
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-puma'
+end
