@@ -1,0 +1,17 @@
+
+<% if @company.vendor? %>
+  <h4>Payment info:
+  <% if @company.credit_card? %>
+    Please, follow this link and confirm.
+  <% elsif @company.check? %>
+    Please mail check to:
+    <br>Griffin Greenhouse
+    <br>ATT: EXPO REGISTRATION 1619 Main St
+    <br>Tewksbury, MA 01876
+  <% elsif @company.debit_memo? %>
+    Please email Suzie Gonzalez
+    <br>Email address: <a href="mailto:sgonzalez@griffinmail.com">sgonzalez@griffinmail.com</a>.
+  <% else %>
+    For information please contact Lisa Hyslip at 800-888-0054.
+  <% end %>
+<% end %>

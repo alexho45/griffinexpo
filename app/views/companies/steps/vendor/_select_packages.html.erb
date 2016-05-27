@@ -2,7 +2,7 @@
 <h4>PLEASE SELECT A NEXT</h4>
 
 <%= form_tag(select_packages_companies_path, method: :post) do %>
-  <%= Package.find_each do |package| %>
+  <% Package.first(1).each do |package| %>
     <% packages_event = PackagesEvent.find_by(company_id: @company.id, event_id: @company.event.id, package_id: package.id) %>
     <h4>
       <%= check_box_tag "packages[#{package.id}][checked]", package.id, checked = packages_event.present? %> 

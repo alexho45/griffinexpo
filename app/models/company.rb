@@ -72,6 +72,12 @@ class Company < ActiveRecord::Base
   def complete_registration
     self.set_step(:confirmation)
     self.update_attribute(:confirmation_token, rand(36**8).to_s(36))
+    send_confirmations
+  end
+
+  def send_confirmations
+    ConfirmationMailer.company_confirmation(self).deliver_now
+    self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
   end
 
 private

@@ -1,0 +1,7 @@
+
+<h4>REGISTRATION IS SUCCESSFUL!</h4>
+<h4>Your confirmation number is</h4>
+<h2><%= @company.confirmation_token.upcase %></h2>
+
+<%= render 'companies/verification_info', locals: { company: @company } %>
+<%= render 'companies/payment_info', locals: { company: @company } %>

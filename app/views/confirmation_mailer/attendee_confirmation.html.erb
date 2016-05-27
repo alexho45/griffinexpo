@@ -1,0 +1,7 @@
+
+<h4>REGISTRATION IS SUCCESSFUL!</h4>
+<h4>Your company registered you as attendee for the</h4>
+<h4><%= @company.event.full_name %></h4>
+
+<h4>Your barcode to this event:</h4>
+<%= image_tag "data:image/jpeg;base64,#{@barcode_image_raw}" %>

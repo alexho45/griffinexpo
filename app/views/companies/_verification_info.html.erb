@@ -1,0 +1,32 @@
+<h3>Thank you for registering for the <%= @company.event.full_name %></h3>
+
+<h4>You have registered for:</h4>
+
+<h4>
+  <%= @company.attendees.count %> x Attendees
+  <br>
+  <%= @company.attendees.map(&:full_name).join(', ') %>
+
+  <% if @company.vendor? %>
+    <br>
+    <% @company.packages_events.each do |packages_event| %>
+      <%= packages_event.quantity %> x <%= packages_event.package.full_name.html_safe %>
+      <br>Electricity required = <%= packages_event.electricity %>
+    <% end %>
+    <br>Payment method = <%= @company.payment_type.titleize %>
+  <% else %>
+    Bus Transportation Required = Yes
+    <br>
+    Bus/Route Assigned = 
+    <% @company.event.buses.each_with_index do |bus, index| %>
+      <% if (bus.attendees & @company.attendees).any? %>
+        <%= "MA EXPO BUS ##{index+1}" %>
+        <%= ", " if index+1 != @company.event.buses.size %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <br>
+  Hotel/Lodging Accomodations Required <%= @company.hotels.any? %>
+  of Required = <%= @company.hotels_events.sum(:quantity) %>
+</h4>
