@@ -23,3 +23,5 @@ b3 = Bus.create(seats_limit: 2)
 
 e1.buses << b1 << b2 << b3
 e2.buses << b1 << b2 << b3
+
+AdminUser.create(email: "admin@griffinmail.com", password: "password", password_confirmation: 'password')

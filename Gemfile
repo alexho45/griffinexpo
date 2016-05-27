@@ -19,6 +19,9 @@ gem 'cocoon'
 gem 'chunky_png'
 gem 'barby'
 
+gem 'devise'
+gem 'activeadmin', github: 'activeadmin'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

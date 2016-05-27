@@ -6,6 +6,10 @@ class Bus < ActiveRecord::Base
   has_one :event, :through => :buses_event
   has_one :buses_event, dependent: :destroy
 
+  def full_name
+    "BUS id ##{id}"
+  end
+
   def available_seats
     self.seats_limit - attendees.size
   end

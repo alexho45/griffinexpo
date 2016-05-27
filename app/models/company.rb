@@ -1,5 +1,4 @@
 class Company < ActiveRecord::Base
-
   has_many :attendees, :through => :companies_attendee
   has_many :companies_attendee, dependent: :destroy
   accepts_nested_attributes_for :attendees, reject_if: :all_blank, allow_destroy: true
@@ -37,6 +36,9 @@ class Company < ActiveRecord::Base
 
   after_create :generate_access_token
 
+  def full_name
+    "#{name} (#{representative_email})"
+  end
 
   def current_steps
     self.vendor? ? VENDOR_STEPS : CUSTOMER_STEPS
@@ -72,7 +74,7 @@ class Company < ActiveRecord::Base
   def complete_registration
     self.set_step(:confirmation)
     self.update_attribute(:confirmation_token, rand(36**8).to_s(36))
-    send_confirmations
+    # send_confirmations
   end
 
   def send_confirmations
