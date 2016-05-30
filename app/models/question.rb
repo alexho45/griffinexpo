@@ -9,9 +9,11 @@ class Question < ActiveRecord::Base
     question_attend_lunch = Question.create(title: "Do you plan on attending our expo lunch?")
     event_days_total.times do |day|
       question_attend.answers << Answer.create(title: "Day #{day+1}")
-      question_attend.answers << Answer.create(title: "Day #{day} & #{day+1}") if day > 0
       question_attend_lunch.answers << Answer.create(title: "Day #{day+1}")
-      question_attend_lunch.answers << Answer.create(title: "Day #{day} & #{day+1}") if day > 0
+      if day > 0
+        question_attend.answers << Answer.create(title: "Day #{day} & #{day+1}")
+        question_attend_lunch.answers << Answer.create(title: "Day #{day} & #{day+1}")
+      end
     end
     question_attend_lunch.answers << Answer.create(title: "None (We will not be attending any luncheons)")
 

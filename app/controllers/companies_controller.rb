@@ -185,7 +185,7 @@ class CompaniesController < ApplicationController
     def company_params
       params
         .require(:company)
-        .permit(:name, :registrant, :address, :representative_email,
+        .permit(:name, :registrant, :address, :representative_email, :zip_code, :us_state,
                 :representative_phone, :company_type, :access_token, :payment_status,
                 :payment_type, :confirmation_token, :process_step,
                 attendees_attributes: [:id, :first_name, :last_name,

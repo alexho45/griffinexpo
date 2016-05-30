@@ -7,7 +7,7 @@ class Bus < ActiveRecord::Base
   has_one :buses_event, dependent: :destroy
 
   def full_name
-    "BUS id ##{id}"
+    "Bus ##{id}"
   end
 
   def available_seats

@@ -270,6 +270,6 @@ ActiveAdmin.setup do |config|
   #
   # config.include_default_association_filters = true
 
-
+  config.register_stylesheet 'admin_pages.css'
 
 end

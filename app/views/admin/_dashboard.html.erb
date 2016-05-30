@@ -1,0 +1,76 @@
+
+<% Event.includes(:companies).find_each do |event| %>
+
+  <h4 class="event-title">
+    <%= event.full_name %>
+  </h4>
+
+  <table style="width:100%">
+    <tbody>
+      <tr>
+        <td>
+          <h1><b><%= event.companies.vendor.count %></b></h1>
+          <h4>Vendor/Exhibitors Registered</h4>
+        </td>
+        <td>
+          <h1><b><%= event.companies.customer.count %></b></h1>
+          <h4>Customers Registered</h4>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <h1><b><%= event_attendees_count(event, :vendor) %></b></h1>
+          <h4>Vendor/Exhibitors Attendees Registered</h4>
+        </td>
+        <td>
+          <h1><b><%= event_attendees_count(event, :customer) %></b></h1>
+          <h4>Customers Attendees Registered</h4>
+        </td>
+      </tr>
+
+      <tr>
+        <td><hr class="longline"></td>
+        <td><hr></td>
+      </tr>
+
+      <tr>
+        <td>
+          <h3><b>Vendor/Exhibitor Payment Method Count</b></h3>
+          <% Company.payment_types.each do |payment_type| %>
+            <h3>
+              <%= event.companies.vendor.where(payment_type: payment_type).count %>
+              by
+              <%= payment_type.first.titleize %>
+            </h3>
+          <% end %>
+        </td>
+        <td>
+          <h3><b>Attendees Taking the Bus</b></h3>
+          <h3><%= event_bus_seats_count(event) %> Total Seats Required</h3>
+          <% event.buses.each do |bus| %>
+            <h3>
+              <%= bus.attendees.count %>
+              seats required on
+              <%= bus.full_name %>
+            </h3>
+          <% end %>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <h3><b>Vendor/Exhibitor Attendee Hotel Registrations</b></h3>
+          <h3><%= event_hotel_rooms_count(event, :vendor) %> Hotel Rooms Required</h3>
+        </td>
+        <td>
+          <h3><b>Customer Attendee Hotel Registrations</b></h3>
+          <h3><%= event_hotel_rooms_count(event, :customer) %> Hotel Rooms Required</h3>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<% end %>
+
+

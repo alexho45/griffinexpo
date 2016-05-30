@@ -21,7 +21,11 @@ b1 = Bus.create(seats_limit: 4)
 b2 = Bus.create(seats_limit: 1)
 b3 = Bus.create(seats_limit: 2)
 
+b4 = Bus.create(seats_limit: 4)
+b5 = Bus.create(seats_limit: 4)
+b6 = Bus.create(seats_limit: 4)
+
 e1.buses << b1 << b2 << b3
-e2.buses << b1 << b2 << b3
+e2.buses << b4 << b5 << b6
 
 AdminUser.create(email: "admin@griffinmail.com", password: "password", password_confirmation: 'password')
