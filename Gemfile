@@ -22,6 +22,8 @@ gem 'barby'
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
 
+gem 'carmen', git: 'https://github.com/jim/carmen', branch: 'master'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

@@ -17,6 +17,14 @@ GIT
       sass-rails
       sprockets (< 4)
 
+GIT
+  remote: https://github.com/jim/carmen
+  revision: 176de6709bb18c1f0e8bd66818ce610c5f7151a4
+  branch: master
+  specs:
+    carmen (1.0.2)
+      activesupport (>= 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -277,6 +285,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano3-puma
+  carmen!
   chunky_png
   cocoon
   coffee-rails (~> 4.1.0)

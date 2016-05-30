@@ -10,31 +10,43 @@
   <div class="form-group">
     <%= f.label :name, 'Company name:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :name, class: "form-control" %>
+      <%= f.text_field :name, class: "form-control", required: true %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :registrant, 'Registrant/Representative:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :registrant, class: "form-control" %>
+      <%= f.text_field :registrant, class: "form-control", required: true %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :address, 'Company Address:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :address, class: "form-control" %>
+      <%= f.text_field :address, class: "form-control", required: true %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :us_state, 'State:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.select :us_state, states_for_select, {include_blank: true}, {required: true, class: 'form-control'} %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :zip_code, 'Zip Code:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :zip_code, class: "form-control", required: true %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :representative_email, 'Representative Email:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :representative_email, class: "form-control" %>
+      <%= f.text_field :representative_email, class: "form-control", required: true, type: :email %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :representative_phone, 'Representative Phone:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :representative_phone, class: "form-control" %>
+      <%= f.text_field :representative_phone, class: "form-control phone-mask", required: true %>
     </div>
   </div>
   <br>
