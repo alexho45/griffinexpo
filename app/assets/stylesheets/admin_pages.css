@@ -9,3 +9,59 @@
 .longline {
   width: 105%;
 }
+
+.accordion {
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.6s ease-in-out;
+  opacity: 0;
+}
+
+.accordion-content.show {
+  opacity: 1;
+  max-height: 600px;
+}
+
+.accordion:after {
+  content: '+';
+  font-size: 35px;
+  float: right;
+  margin-top: -15px;
+}
+
+.accordion.active:after {
+  content: '-';
+}
+
+.bus-title {
+  background: lightgray;
+  color: black;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.bus-table tbody th {
+  background-color: #6699ff;
+  color: white;
+  font-size: 18px;
+}
+
+.bus-table tbody tr {
+  background-color: #cce6ff;
+  font-size: 16px;
+}
+
+.bus-table tbody tr:nth-child(odd) {
+  background-color: #99ccff;
+}
+
+.bus-table tbody td {
+  border: 1px solid white;
+}
+
