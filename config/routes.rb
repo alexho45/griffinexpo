@@ -26,5 +26,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :reports, only: [] do
+    collection do
+      post :companies
+    end
+  end
+
   root 'companies#in_process'
 end

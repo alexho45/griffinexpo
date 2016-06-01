@@ -46,6 +46,10 @@
   font-size: 16px;
 }
 
+.bus-table {
+  width:100%;
+}
+
 .bus-table tbody th {
   background-color: #6699ff;
   color: white;
@@ -63,5 +67,12 @@
 
 .bus-table tbody td {
   border: 1px solid white;
+}
+
+.download-csv {
+  font-size: 20px;
+  padding: 5px;
+  background: #ffdead;
+  color: black;
 }
 

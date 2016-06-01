@@ -18,7 +18,27 @@ class Event < ActiveRecord::Base
     "#{title} #{from.strftime("%d %b")} - #{to.strftime("%d %b")} (#{location})"
   end
 
+  def buses_companies
+    buses.all.map do |bus|
+      bus.attendees_companies
+    end.reduce(:+)
+  end
+
   def init_questions
     Question.generate_standard_questions(self)
+  end
+
+  # UPDATE THIS LATER with desctiption field
+
+  def lunch_question
+    questions.find_by("title LIKE ?", "%lunch%")
+  end
+
+  def coctail_question
+    questions.find_by("title LIKE ?", "%“Cocktail”%")
+  end
+
+  def food_allergies_question
+    questions.find_by("title LIKE ?", "%food allergies%")
   end
 end

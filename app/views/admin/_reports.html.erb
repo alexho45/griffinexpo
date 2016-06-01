@@ -1,2 +1,12 @@
 
-reports
+<h3>Select event and report type:</h3>
+<h4>
+  Event:
+  <%= select_tag :event_id, options_from_collection_for_select(Event.all, :id, :full_name) %>
+</h4>
+<h4>
+  Report Type:
+  <button data-path=<%= companies_reports_path %> data-type="vendor" data-send-path="companies_reports_path" name="report_type">Vendor Companies</button>
+  <button data-path=<%= companies_reports_path %> data-type="customer" data-send-path="companies_reports_path" name="report_type">Customer Companies</button>
+</h4>
+<div id="report_content"></div>

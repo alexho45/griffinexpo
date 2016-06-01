@@ -1,0 +1,24 @@
+<%- headers = Company::CSV_VENDOR_ATTRIBUTES_LIST -%>
+<%= CSV.generate_line(headers).strip %>
+<%- @companies.each do |company| -%>
+<%= CSV.generate_line(
+  [
+    company.company_type,
+    company.name,
+    company.address,
+    company.representative_email,
+    company.representative_phone,
+    company.registrant,
+    company.attendees.count,
+    company.attendees.map(&:full_name).join(', '),
+    company.packages.uniq.map(&:name).join(', '),
+    company.packages_events.sum(:quantity),
+    company.packages_events.try(:first).try(:electricity),
+    company.payment_type,
+    company.hotels_events.any?,
+    company.hotels_events.sum(:quantity),
+    '-',
+    '-'
+  ]).html_safe.strip
+-%>
+<%- end -%>

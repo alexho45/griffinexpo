@@ -1,0 +1,33 @@
+
+<%= link_to 'Download CSV list', send(path, format: :csv, event_id: params[:event_id], company_type: params[:company_type]), method: :post, class: 'download-csv' %>
+
+<table class="bus-table" cellspacing="1">
+  <tbody>
+    <tr>
+      <% Company::CSV_VENDOR_ATTRIBUTES_LIST.each do |attr| %>
+        <th><%= attr %></th>
+      <% end %>
+    </tr>
+
+    <% companies.each do |company| %>
+      <tr>
+        <td><%= company.company_type %></td>
+        <td><%= company.name %></td>
+        <td><%= company.address %></td>
+        <td><%= company.representative_email %></td>
+        <td><%= company.representative_phone %></td>
+        <td><%= company.registrant %></td>
+        <td><%= company.attendees.count %></td>
+        <td><%= company.attendees.map(&:full_name).join(', ') %></td>
+        <td><%= company.packages.uniq.map(&:name).join(', ') %></td>
+        <td><%= company.packages_events.sum(:quantity) %></td>
+        <td><%= company.packages_events.try(:first).try(:electricity) %></td>
+        <td><%= company.payment_type %></td>
+        <td><%= company.hotels_events.any? %></td>
+        <td><%= company.hotels_events.sum(:quantity) %></td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

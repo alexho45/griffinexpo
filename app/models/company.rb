@@ -28,6 +28,16 @@ class Company < ActiveRecord::Base
   CUSTOMER_STEPS = [:select_event, :company_info, :questions, :select_buses,
                     :select_accommodations, :verification, :confirmation]
   COMPANY_TYPES = [[:vendor, 'Vendor/Exhibitor'], [:customer, 'Customer/Attendee']]
+  CSV_VENDOR_ATTRIBUTES_LIST = ['Type', 'Name', 'Address', 'Email', 'Phone', 'Represenative',
+                                 'Number of Attendees', 'Attendees names', 'Booth packages selected',
+                                 'Booth quantity', 'Electricity required', 'Payment method',
+                                 'Hotel accomadations required', 'Number of rooms required',
+                                 'Number of rooms booked', 'Room type']
+  CSV_CUSTOMER_ATTRIBUTES_LIST = ['Type', 'Name', 'Address', 'Email', 'Phone', 'Represenative',
+                                 'Number of Attendees', 'Attendees names', 'Transportation Required',
+                                 'Attending Cocktail Hour', 'Attending Luncheon Day',
+                                 'Specific Food Allergies', 'Hotel accomadations required', 'Number of rooms required',
+                                 'Number of rooms booked', 'Room type', 'Seminars']
 
   enum company_type: [:vendor, :customer]
   enum process_step: POSSIBLE_STEPS
@@ -80,6 +90,32 @@ class Company < ActiveRecord::Base
   def send_confirmations
     ConfirmationMailer.company_confirmation(self).deliver_now
     self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
+  end
+
+  # UPDATE THIS
+
+  def lunch_attending
+    companies_answers
+      .select{|ca| ca.question_id == event.lunch_question.id }
+      .try(:first)
+      .try(:answer)
+      .try(:title)
+  end
+
+  def coctail_attending
+    companies_answers
+      .select{|ca| ca.question_id == event.coctail_question.id }
+      .try(:first)
+      .try(:answer)
+      .try(:title)
+  end
+
+  def food_allergies_attending
+    companies_answers
+      .select{|ca| ca.question_id == event.food_allergies_question.id }
+      .try(:first)
+      .try(:answer)
+      .try(:title)
   end
 
 private

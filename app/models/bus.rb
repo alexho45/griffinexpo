@@ -14,4 +14,10 @@ class Bus < ActiveRecord::Base
     self.seats_limit - attendees.size
   end
 
+  def attendees_companies
+    attendees.map do |attendee|
+      attendee.company
+    end
+  end
+
 end
