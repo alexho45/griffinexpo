@@ -1,5 +1,6 @@
 class Attendee < ActiveRecord::Base
-  has_many :events
+  has_one :event, :through => :attendees_event
+  has_one :attendees_event
 
   has_one :company, :through => :companies_attendee
   has_one :companies_attendee

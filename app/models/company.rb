@@ -92,30 +92,14 @@ class Company < ActiveRecord::Base
     self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
   end
 
-  # UPDATE THIS
-
-  def lunch_attending
-    companies_answers
-      .select{|ca| ca.question_id == event.lunch_question.id }
-      .try(:first)
-      .try(:answer)
-      .try(:title)
-  end
-
-  def coctail_attending
-    companies_answers
-      .select{|ca| ca.question_id == event.coctail_question.id }
-      .try(:first)
-      .try(:answer)
-      .try(:title)
-  end
-
-  def food_allergies_attending
-    companies_answers
-      .select{|ca| ca.question_id == event.food_allergies_question.id }
-      .try(:first)
-      .try(:answer)
-      .try(:title)
+  %w(lunch coctail food_allergies).each do |key_word|
+    define_method("#{key_word}_answer") do
+      companies_answers
+        .select{|ca| ca.question_id == event.send("#{key_word}_question").id }
+        .try(:first)
+        .try(:answer)
+        .try(:title)
+    end
   end
 
 private

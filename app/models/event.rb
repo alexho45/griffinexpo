@@ -28,17 +28,9 @@ class Event < ActiveRecord::Base
     Question.generate_standard_questions(self)
   end
 
-  # UPDATE THIS LATER with desctiption field
-
-  def lunch_question
-    questions.find_by("title LIKE ?", "%lunch%")
-  end
-
-  def coctail_question
-    questions.find_by("title LIKE ?", "%“Cocktail”%")
-  end
-
-  def food_allergies_question
-    questions.find_by("title LIKE ?", "%food allergies%")
+  %w(lunch coctail food_allergies).each do |key_word|
+    define_method("#{key_word}_question") do
+      questions.find_by(key_word: key_word)
+    end
   end
 end

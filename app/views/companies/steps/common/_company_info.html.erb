@@ -6,7 +6,7 @@
 </h4>
 <br>
 
-<%= form_for @company, url: save_info_and_attendees_companies_path, method: :post, html: { class: 'form-horizontal' } do |f| %>
+<%= form_for @company, url: save_info_and_attendees_companies_path, method: :post, html: { class: 'form-horizontal', id: :company_info_form } do |f| %>
   <div class="form-group">
     <%= f.label :name, 'Company name:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
@@ -29,6 +29,12 @@
     <%= f.label :us_state, 'State:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
       <%= f.select :us_state, states_for_select, {include_blank: true}, {required: true, class: 'form-control'} %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :city, 'City:', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.text_field :city, class: "form-control", required: true %>
     </div>
   </div>
   <div class="form-group">
@@ -68,6 +74,11 @@
       <% end %>
     </tbody>
   </table>
+
+  <div class="attendees-count-error">
+    You should have at least one attendee
+  </div>
+
   <%= link_to_add_association 'add attendee', f, :attendees, partial: 'attendees/form', class: 'btn btn-success', 'data-association-insertion-method' => 'append','data-association-insertion-node' => 'tbody' %>
 
   <br>

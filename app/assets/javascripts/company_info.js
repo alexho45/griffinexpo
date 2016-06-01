@@ -14,4 +14,15 @@ $(function () {
       }
   });
 
+  if ($('#company_info_form').size() > 0) {
+    $(".add_fields").click();
+
+    $('#company_info_form').submit( function(e) {
+      if ($('.nested-fields').size() == 0) {
+        e.preventDefault();
+        $('.attendees-count-error').show();
+      }
+    });
+  }
+
 });
