@@ -2,7 +2,7 @@
 <% Bus.includes(:attendees, :event).find_each do |bus| %>
 
   <h4 class="bus-title accordion">
-    Bus Attendee Roster for <%= bus.full_name %> (<%= bus.event.full_name %>)
+    Bus Attendee Roster for <%= bus.title %> (<%= bus.event.full_name %>)
   </h4>
 
   <div class="accordion-content">

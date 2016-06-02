@@ -32,12 +32,12 @@ class Company < ActiveRecord::Base
                                  'Number of Attendees', 'Attendees names', 'Booth packages selected',
                                  'Booth quantity', 'Electricity required', 'Payment method',
                                  'Hotel accomadations required', 'Number of rooms required',
-                                 'Number of rooms booked', 'Room type']
+                                 'Number of rooms booked']
   CSV_CUSTOMER_ATTRIBUTES_LIST = ['Type', 'Name', 'Address', 'Email', 'Phone', 'Represenative',
                                  'Number of Attendees', 'Attendees names', 'Transportation Required',
                                  'Attending Cocktail Hour', 'Attending Luncheon Day',
                                  'Specific Food Allergies', 'Hotel accomadations required', 'Number of rooms required',
-                                 'Number of rooms booked', 'Room type', 'Seminars']
+                                 'Number of rooms booked', 'Seminars']
 
   enum company_type: [:vendor, :customer]
   enum process_step: POSSIBLE_STEPS

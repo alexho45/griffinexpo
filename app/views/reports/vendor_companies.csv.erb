@@ -10,15 +10,14 @@
     company.representative_phone,
     company.registrant,
     company.attendees.count,
-    company.attendees.map(&:full_name).join(', '),
-    company.packages.uniq.map(&:name).join(', '),
+    company.attendees.map(&:full_name).join(', ').strip,
+    company.packages.uniq.map(&:name).join(', ').strip,
     company.packages_events.sum(:quantity),
     company.packages_events.try(:first).try(:electricity),
     company.payment_type,
     company.hotels_events.any?,
     company.hotels_events.sum(:quantity),
-    '-',
-    '-'
-  ]).html_safe.strip
+    company.number_of_booked_rooms
+  ]).html_safe
 -%>
 <%- end -%>

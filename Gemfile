@@ -16,11 +16,16 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'cocoon'
 
+# qr-code
 gem 'chunky_png'
 gem 'barby'
 
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
+
+# pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 gem 'carmen', git: 'https://github.com/jim/carmen', branch: 'master'
 

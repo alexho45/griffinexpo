@@ -1,0 +1,6 @@
+
+<%= link_to 'Download CSV list', send(path, format: :csv, event_id: params[:event_id], company_type: params[:company_type]), method: :post, class: 'download-button' %>
+
+<%= link_to 'Download PDF list', send(path, format: :pdf, event_id: params[:event_id], company_type: params[:company_type]), method: :post, class: 'download-button' %>
+
+<%= render partial: "#{params[:company_type]}_companies", locals: { companies: companies, company_type: params[:company_type] } %>

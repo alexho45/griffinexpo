@@ -17,8 +17,7 @@
     company.food_allergies_answer,
     company.hotels_events.any?,
     company.hotels_events.sum(:quantity),
-    '-',
-    '-',
+    company.number_of_booked_rooms,
     '-'
   ]).html_safe.strip
 -%>

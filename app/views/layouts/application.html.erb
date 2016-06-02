@@ -2,7 +2,11 @@
 <html>
 <head>
   <title>Griffinexpo</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <% if params[:format] && params[:format] == 'pdf' %>
+    <%= wicked_pdf_stylesheet_link_tag 'application' %>
+  <% else %>
+    <%= stylesheet_link_tag 'application' %>
+  <% end %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>

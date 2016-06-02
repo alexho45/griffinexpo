@@ -14,9 +14,10 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.js do
         html = render_to_string(
-            partial:    "#{params[:company_type]}_companies",
-            locals:     { companies: @companies,
-                          path:      params[:path].presence }
+            partial:    "companies",
+            locals:     { companies:    @companies,
+                          path:         params[:path].presence,
+                          company_type: params[:company_type].presence }
         )
 
         render json: {
@@ -27,6 +28,12 @@ class ReportsController < ApplicationController
       format.csv do
         headers['Content-Type'] ||= 'text/csv'
         render template: "reports/#{params[:company_type]}_companies"
+      end
+      format.pdf do
+        html = render_to_string(template: "reports/#{params[:company_type]}_companies", 
+                                locals: { companies:    @companies})
+        pdf = WickedPdf.new.pdf_from_string(html)
+        send_data(pdf, :disposition => 'attachment') 
       end
     end
   end

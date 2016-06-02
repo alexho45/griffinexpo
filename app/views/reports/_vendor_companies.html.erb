@@ -1,6 +1,4 @@
 
-<%= link_to 'Download CSV list', send(path, format: :csv, event_id: params[:event_id], company_type: params[:company_type]), method: :post, class: 'download-csv' %>
-
 <table class="bus-table" cellspacing="1">
   <tbody>
     <tr>
@@ -25,8 +23,7 @@
         <td><%= company.payment_type %></td>
         <td><%= company.hotels_events.any? %></td>
         <td><%= company.hotels_events.sum(:quantity) %></td>
-        <td>-</td>
-        <td>-</td>
+        <td><%= company.number_of_booked_rooms %></td>
       </tr>
     <% end %>
   </tbody>

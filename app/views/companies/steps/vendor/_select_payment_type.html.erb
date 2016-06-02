@@ -3,10 +3,22 @@
 Please select your payment method:
 
 <%= form_for @company, url: select_accommodations_companies_path, method: :post do |f| %>
-  <h4><%= f.radio_button :payment_type, :credit_card, checked: true %> Credit Card</h4>
-  <h4><%= f.radio_button :payment_type, :check %> Check</h4>
-  <h4><%= f.radio_button :payment_type, :debit_memo %> Debit Memo</h4>
-  <h4><%= f.radio_button :payment_type, :other %> Other</h4>
+  <h4 data-toggle="popover" data-trigger="hover" data-content="Click _this link_. <br> You will be redirected to credit card payment page where you should enter your credit card info." class="payment-option">
+    <%= f.radio_button :payment_type, :credit_card, checked: true, disabled: true %>
+    Credit Card
+  </h4>
+  <h4 data-toggle="popover" data-trigger="hover" data-content="Please mail check to: <br>Griffin Greenhouse <br>ATT: EXPO REGISTRATION <br>1619 Main St <br>Tewksbury, MA 01876" class="payment-option">
+    <%= f.radio_button :payment_type, :check, checked: true %>
+    Check
+  </h4>
+  <h4 data-toggle="popover" data-trigger="hover" data-content="Please email Suzie Gonzalez <br>Email address: sgonzalez@griffinmail.com" class="payment-option">
+    <%= f.radio_button :payment_type, :debit_memo %>
+    Debit Memo
+  </h4>
+  <h4 data-toggle="popover" data-trigger="hover" data-content=" For all other payment methods, please contact Lisa Hyslip at 800-888-0054" class="payment-option">
+    <%= f.radio_button :payment_type, :other %>
+    Other
+  </h4>
 
   <h4>Amount Due: $<%= @company.subtotal %></h4>
 

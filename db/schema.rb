@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601124427) do
+ActiveRecord::Schema.define(version: 20160602081048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160601124427) do
     t.integer  "seats_limit"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "title"
   end
 
   create_table "buses_attendees", force: :cascade do |t|
@@ -116,11 +117,12 @@ ActiveRecord::Schema.define(version: 20160601124427) do
     t.integer  "payment_type"
     t.string   "confirmation_token"
     t.integer  "process_step"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "us_state"
     t.string   "zip_code"
     t.string   "city"
+    t.integer  "number_of_booked_rooms"
   end
 
   create_table "companies_answers", force: :cascade do |t|
@@ -235,28 +237,28 @@ ActiveRecord::Schema.define(version: 20160601124427) do
   add_index "questions_events", ["event_id"], name: "index_questions_events_on_event_id", using: :btree
   add_index "questions_events", ["question_id"], name: "index_questions_events_on_question_id", using: :btree
 
-  add_foreign_key "attendees", "companies"
-  add_foreign_key "attendees_events", "attendees"
-  add_foreign_key "attendees_events", "events"
-  add_foreign_key "buses_attendees", "attendees"
-  add_foreign_key "buses_attendees", "buses"
-  add_foreign_key "buses_events", "buses"
-  add_foreign_key "buses_events", "events"
-  add_foreign_key "companies_answers", "answers"
-  add_foreign_key "companies_answers", "companies"
-  add_foreign_key "companies_answers", "questions"
-  add_foreign_key "companies_attendees", "attendees"
-  add_foreign_key "companies_attendees", "companies"
-  add_foreign_key "companies_events", "companies"
-  add_foreign_key "companies_events", "events"
-  add_foreign_key "hotels_events", "companies"
-  add_foreign_key "hotels_events", "events"
-  add_foreign_key "hotels_events", "hotels"
-  add_foreign_key "packages_events", "companies"
-  add_foreign_key "packages_events", "events"
-  add_foreign_key "packages_events", "packages"
-  add_foreign_key "questions_answers", "answers"
-  add_foreign_key "questions_answers", "questions"
-  add_foreign_key "questions_events", "events"
-  add_foreign_key "questions_events", "questions"
+  add_foreign_key "attendees", "companies", on_delete: :cascade
+  add_foreign_key "attendees_events", "attendees", on_delete: :cascade
+  add_foreign_key "attendees_events", "events", on_delete: :cascade
+  add_foreign_key "buses_attendees", "attendees", on_delete: :cascade
+  add_foreign_key "buses_attendees", "buses", on_delete: :cascade
+  add_foreign_key "buses_events", "buses", on_delete: :cascade
+  add_foreign_key "buses_events", "events", on_delete: :cascade
+  add_foreign_key "companies_answers", "answers", on_delete: :cascade
+  add_foreign_key "companies_answers", "companies", on_delete: :cascade
+  add_foreign_key "companies_answers", "questions", on_delete: :cascade
+  add_foreign_key "companies_attendees", "attendees", on_delete: :cascade
+  add_foreign_key "companies_attendees", "companies", on_delete: :cascade
+  add_foreign_key "companies_events", "companies", on_delete: :cascade
+  add_foreign_key "companies_events", "events", on_delete: :cascade
+  add_foreign_key "hotels_events", "companies", on_delete: :cascade
+  add_foreign_key "hotels_events", "events", on_delete: :cascade
+  add_foreign_key "hotels_events", "hotels", on_delete: :cascade
+  add_foreign_key "packages_events", "companies", on_delete: :cascade
+  add_foreign_key "packages_events", "events", on_delete: :cascade
+  add_foreign_key "packages_events", "packages", on_delete: :cascade
+  add_foreign_key "questions_answers", "answers", on_delete: :cascade
+  add_foreign_key "questions_answers", "questions", on_delete: :cascade
+  add_foreign_key "questions_events", "events", on_delete: :cascade
+  add_foreign_key "questions_events", "questions", on_delete: :cascade
 end
