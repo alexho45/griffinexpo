@@ -1,35 +1,29 @@
+<h4 class="bus-title accordion">
+  Bus Attendee Roster for <%= bus.title %> (<%= bus.event.full_name %>)
+</h4>
 
-<% Bus.includes(:attendees, :event).find_each do |bus| %>
+<div class="accordion-content">
+  <table class="bus-table" style="width:100%" cellspacing="1">
+    <tbody>
+      <tr>
+        <th>Company Name</th>
+        <th>Attendee First Name</th>
+        <th>Attendee Last Name</th>
+      </tr>
 
-  <h4 class="bus-title accordion">
-    Bus Attendee Roster for <%= bus.title %> (<%= bus.event.full_name %>)
-  </h4>
-
-  <div class="accordion-content">
-
-    <table class="bus-table" style="width:100%" cellspacing="1">
-      <tbody>
+      <% bus.attendees.each do |attendee| %>
         <tr>
-          <th>Company Name</th>
-          <th>Attendee First Name</th>
-          <th>Attendee Last Name</th>    
+          <td><%= attendee.company.name %></td>
+          <td><%= attendee.first_name %></td>
+          <td><%= attendee.last_name %></td>
         </tr>
+      <% end %>
 
-        <% bus.attendees.each do |attendee| %>
-          <tr>
-            <td><%= attendee.company.name %></td>
-            <td><%= attendee.first_name %></td>
-            <td><%= attendee.last_name %></td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td></td>
-          <td><b>Total Expected Passenger Count</b></td>
-          <td><%= bus.attendees.count %></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-<% end %>
+      <tr>
+        <td></td>
+        <td><b>Total Expected Passenger Count</b></td>
+        <td><%= bus.attendees.count %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

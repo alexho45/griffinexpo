@@ -1,5 +1,7 @@
 ActiveAdmin.register Attendee do
 
+  permit_params Attendee.column_names.map(&:to_sym)
+
   index do
     selectable_column
     additional_fields = ["company"]

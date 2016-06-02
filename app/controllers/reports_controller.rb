@@ -31,9 +31,31 @@ class ReportsController < ApplicationController
       end
       format.pdf do
         html = render_to_string(template: "reports/#{params[:company_type]}_companies", 
-                                locals: { companies:    @companies})
+                                locals: { companies: @companies})
         pdf = WickedPdf.new.pdf_from_string(html)
-        send_data(pdf, :disposition => 'attachment') 
+        send_data(pdf,
+                  disposition: 'attachment') 
+      end
+    end
+  end
+
+  def bus_attendees
+    @bus = if params[:bus_id].present?
+             Bus.find(params[:bus_id])
+           end
+
+    respond_to do |format|
+      format.csv do
+        headers['Content-Type'] ||= 'text/csv'
+        render template: "admin/bus_report"
+      end
+      format.pdf do
+        html = render_to_string(template: "admin/bus_report", 
+                                locals: { bus: @bus})
+        pdf = WickedPdf.new.pdf_from_string(html)
+        send_data(pdf,
+                  filename: @bus.title,
+                  disposition: 'attachment') 
       end
     end
   end

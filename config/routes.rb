@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :reports, only: [] do
     collection do
       post :companies
+      post :bus_attendees
     end
   end
 

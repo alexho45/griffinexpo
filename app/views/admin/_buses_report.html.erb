@@ -1,0 +1,6 @@
+
+<% Bus.includes(:attendees, :event).find_each do |bus| %>
+  <%= link_to 'Download CSV list', bus_attendees_reports_path(format: :csv, bus_id: bus.id), method: :post, class: 'download-button' %>
+  <%= link_to 'Download PDF list', bus_attendees_reports_path(format: :pdf, bus_id: bus.id), method: :post, class: 'download-button' %>
+  <%= render partial: 'admin/bus_report', locals: { bus: bus } %>
+<% end %>
