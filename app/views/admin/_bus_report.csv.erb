@@ -1,0 +1,11 @@
+<%- headers = ['Company Name', 'Attendee First Name', 'Attendee Last Name'] -%>
+<%= CSV.generate_line(headers).strip %>
+<%- bus.attendees.each do |attendee| -%>
+<%= CSV.generate_line(
+  [
+    attendee.company.name,
+    attendee.first_name,
+    attendee.last_name
+  ]).html_safe
+-%>
+<%- end -%>

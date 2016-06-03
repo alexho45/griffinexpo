@@ -10,11 +10,14 @@ class Event < ActiveRecord::Base
   has_many :questions_events, dependent: :destroy
 
   has_many :buses, :through => :buses_events
-  has_many :buses_events
+  has_many :buses_events, dependent: :destroy
+
+  has_many :checked_attendees, :through => :check_ins, source: :attendee
+  has_many :check_ins
 
   after_create :init_questions
 
-  scope :next_events, -> { where(from: (Date.tomorrow..Date.tomorrow+10.years)) }
+  scope :future_events, -> { where(from: (Date.tomorrow..Date.tomorrow+10.years)) }
   scope :past_events, -> { where(to:   (Date.tomorrow-10.years..Date.tomorrow)) }
 
   def full_name

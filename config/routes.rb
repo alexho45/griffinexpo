@@ -33,5 +33,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :checkins, only: [] do
+    collection do
+      post :update_attendees
+      post :download_event_attendees
+    end
+  end
+
   root 'companies#in_process'
 end

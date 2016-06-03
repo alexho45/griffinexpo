@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602081048) do
+ActiveRecord::Schema.define(version: 20160602114901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,17 @@ ActiveRecord::Schema.define(version: 20160602081048) do
 
   add_index "buses_events", ["bus_id"], name: "index_buses_events_on_bus_id", using: :btree
   add_index "buses_events", ["event_id"], name: "index_buses_events_on_event_id", using: :btree
+
+  create_table "check_ins", force: :cascade do |t|
+    t.integer  "attendee_id"
+    t.integer  "event_id"
+    t.string   "seminar"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "check_ins", ["attendee_id"], name: "index_check_ins_on_attendee_id", using: :btree
+  add_index "check_ins", ["event_id"], name: "index_check_ins_on_event_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
@@ -244,6 +255,8 @@ ActiveRecord::Schema.define(version: 20160602081048) do
   add_foreign_key "buses_attendees", "buses", on_delete: :cascade
   add_foreign_key "buses_events", "buses", on_delete: :cascade
   add_foreign_key "buses_events", "events", on_delete: :cascade
+  add_foreign_key "check_ins", "attendees", on_delete: :cascade
+  add_foreign_key "check_ins", "events", on_delete: :cascade
   add_foreign_key "companies_answers", "answers", on_delete: :cascade
   add_foreign_key "companies_answers", "companies", on_delete: :cascade
   add_foreign_key "companies_answers", "questions", on_delete: :cascade

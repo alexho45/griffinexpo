@@ -1,0 +1,15 @@
+
+checkins
+
+<%= form_tag (admin_checkins_path), id: :admin_checkins_search_form, method: :get do %>
+  <%= select_tag :event_id, options_from_collection_for_select(Event.all, :id, :full_name, @event.try(:id)), prompt: "Select event", id: :admin_select_event %>
+<% end %>
+
+<%= form_tag (update_attendees_checkins_path) do %>
+  <%= render partial: 'admin/event_attendees', locals: { attendees: @attendees, checked_attendees: @checked_attendees } %>
+
+  <%= hidden_field_tag :event_id, @event.try(:id) %>
+  <%= submit_tag 'Update selected attendees' %>
+  <%= link_to 'Download event attendees CSV', download_event_attendees_checkins_path(event_id: params[:event_id], format: :csv), method: :post, class: 'download-button' %>
+  <%= link_to 'Download event attendees PDF', download_event_attendees_checkins_path(event_id: params[:event_id], format: :pdf), method: :post, class: 'download-button' %>
+<% end %>

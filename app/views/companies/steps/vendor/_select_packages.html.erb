@@ -5,7 +5,7 @@
   <% Package.first(1).each do |package| %>
     <% packages_event = PackagesEvent.find_by(company_id: @company.id, event_id: @company.event.id, package_id: package.id) %>
     <h4>
-      <%= check_box_tag "packages[#{package.id}][checked]", package.id, checked = packages_event.present? %> 
+      <%= check_box_tag "packages[#{package.id}][checked]", package.id, checked = packages_event.present? %>
       <%= package.full_name.html_safe %>
     </h4>
     Number of Booths Required:

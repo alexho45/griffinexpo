@@ -1,13 +1,13 @@
 
 <h2>Welcome to the Griffin Greenhouse EXPO <%= @company.company_type.titleize %> Registration</h2><br>
-<% if Event.next_events.any? %>
+<% if Event.future_events.any? %>
   <h2>Please select the event/expo you would like to register for</h2>
 <% else %>
   <h2>Sorry, no events at this time</h2>
 <% end %>
 
 <%= form_tag(select_event_companies_path, method: :post) do %>
-  <% Event.next_events.each_with_index do |event, index| %>
+  <% Event.future_events.each_with_index do |event, index| %>
     <h4>
       <%= radio_button_tag :event_id, event.id, checked = index == 0 %> 
       <%= event.full_name %>

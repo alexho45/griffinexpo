@@ -36,4 +36,11 @@ $(function () {
     });
   });
 
+
+  // Chechkins page
+
+  $(document).on('change', '#admin_select_event', function (e) {
+    $('#admin_checkins_search_form').submit();
+  });
+
 });

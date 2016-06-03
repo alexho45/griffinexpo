@@ -47,11 +47,11 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.csv do
         headers['Content-Type'] ||= 'text/csv'
-        render template: "admin/bus_report"
+        render template: "admin/_bus_report", locals: { bus: @bus }
       end
       format.pdf do
         html = render_to_string(template: "admin/bus_report", 
-                                locals: { bus: @bus})
+                                locals: { bus: @bus })
         pdf = WickedPdf.new.pdf_from_string(html)
         send_data(pdf,
                   filename: @bus.title,
