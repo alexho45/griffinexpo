@@ -17,8 +17,7 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'cocoon'
 
 # qr-code
-gem 'chunky_png'
-gem 'barby'
+gem 'rqrcode'
 
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'

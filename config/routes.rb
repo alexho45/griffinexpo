@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     collection do
       post :update_attendees
       post :download_event_attendees
+      post :print_bagdes
     end
   end
 

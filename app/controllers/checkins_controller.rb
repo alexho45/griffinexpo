@@ -30,9 +30,31 @@ class CheckinsController < ApplicationController
         pdf = WickedPdf.new.pdf_from_string(html)
         send_data(pdf,
                   filename: @event.full_name,
-                  disposition: 'attachment') 
+                  disposition: 'attachment')
       end
     end
+  end
+
+  def print_bagdes
+    event = if params[:event_id]
+              Event.find(params[:event_id])
+            end
+    attendees = event.try(:attendees) || []
+    badges = attendees.map do |attendee|
+      company = attendee.company
+      # qr_code_img = RQRCode::QRCode
+                      # .new('<a href="google.com">asadasdasdassdadasdasdasdasdasdadasd</a>' + attendee.id.to_s, size: 10)
+                      # .to_img
+      # image_raw = Base64.strict_encode64(qr_code_img.to_string)
+      qr = RQRCode::QRCode.new('https://google.com')
+      { name: attendee.full_name, company_name: company.name, qr: qr}
+    end
+    html = render_to_string(template: "admin/badges", 
+                            locals: { badges: badges })
+    pdf = WickedPdf.new.pdf_from_string(html)
+    send_data(pdf,
+              filename: event.full_name,
+              disposition: 'attachment')
   end
 
 end
