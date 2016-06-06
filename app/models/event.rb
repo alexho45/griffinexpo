@@ -39,4 +39,8 @@ class Event < ActiveRecord::Base
       questions.find_by(key_word: key_word)
     end
   end
+
+  def seminar_questions
+    questions.where(seminar: true)
+  end
 end

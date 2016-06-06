@@ -8,11 +8,11 @@
   <% attendees.each do |attendee| %>
     <tr>
       <td><%= attendee.full_name %></td>
-      <td><%= attendee.company.full_name %></td>
+      <td><%= attendee.company.try(:full_name) %></td>
       <td>
         <%= check_box_tag "attendees[]", attendee.id, checked = checked_attendees.include?(attendee) %>
       </td>
-      <td></td>
+      <td><%= attendee.checked_seminars %></td>
     </tr>
   <% end %>
 </table>

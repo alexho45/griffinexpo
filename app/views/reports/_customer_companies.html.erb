@@ -24,7 +24,7 @@
         <td><%= company.hotels_events.any? %></td>
         <td><%= company.hotels_events.sum(:quantity) %></td>
         <td><%= company.number_of_booked_rooms %></td>
-        <td>-</td>
+        <td><%= company.seminars_answer %></td>
       </tr>
     <% end %>
   </tbody>

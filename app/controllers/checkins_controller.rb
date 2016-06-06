@@ -42,12 +42,12 @@ class CheckinsController < ApplicationController
     attendees = event.try(:attendees) || []
     badges = attendees.map do |attendee|
       company = attendee.company
-      # qr_code_img = RQRCode::QRCode
-                      # .new('<a href="google.com">asadasdasdassdadasdasdasdasdasdadasd</a>' + attendee.id.to_s, size: 10)
-                      # .to_img
-      # image_raw = Base64.strict_encode64(qr_code_img.to_string)
-      qr = RQRCode::QRCode.new('https://google.com')
-      { name: attendee.full_name, company_name: company.name, qr: qr}
+      url = url_for(controller:  :checkins,
+                    action:      :register,
+                    attendee_id: attendee.id)
+      qr = RQRCode::QRCode.new(url)
+      puts url
+      { name: attendee.full_name, company_name: company.try(:name), qr: qr }
     end
     html = render_to_string(template: "admin/badges", 
                             locals: { badges: badges })
@@ -55,6 +55,26 @@ class CheckinsController < ApplicationController
     send_data(pdf,
               filename: event.full_name,
               disposition: 'attachment')
+  end
+
+  def register
+    @attendee = nil
+    if params[:attendee_id].present?
+      @attendee = Attendee.find(params[:attendee_id])
+      @event = @attendee.event
+      if params[:seminar].present?
+        CheckIn.find_or_create_by(
+          event_id:    @event.id,
+          attendee_id: @attendee.id,
+          seminar:     params[:seminar]
+        )
+      else
+        if @attendee.event.checked_attendees.exclude?(@attendee)
+          @event.checked_attendees << @attendee
+        end
+      end
+    end
+
   end
 
 end

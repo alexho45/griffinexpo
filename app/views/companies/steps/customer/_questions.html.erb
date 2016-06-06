@@ -3,12 +3,11 @@
 
 <%= form_tag(questions_companies_path, method: :post) do %>
 
-  <% @company.event.questions.where(text_field: false).each do |question| %>
+  <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
     <h4><%= question.title %></h4>
     <% question.answers.each_with_index do |possible_answer, index| %>
-      <% company_answer = @company.companies_answers.select{|ca| ca.answer_id == possible_answer.id }.first %>
       <h5>
-        <%= radio_button_tag "questions[#{question.id}][answer_id]", possible_answer.id, checked = company_answer.present? ? true : (index == 0 ? true : false) %>
+        <%= radio_button_tag "questions[#{question.id}][answer_id]", possible_answer.id, checked = company_answer_radio(@company, possible_answer).present? ? true : (index == 0 ? true : false) %>
         <%= possible_answer.title %>
       </h5>
     <% end %>
@@ -18,10 +17,19 @@
   <% @company.event.questions.where(text_field: true).each do |question| %>
     <h4><%= question.title %></h4>
     <p>
-      <% company_answer = @company.companies_answers.select{|ca| ca.question_id == question.id }.first %>
-      <%= text_field_tag "questions_with_text[#{question.id}][answer_id]", company_answer.try(:answer).try(:value), class: "form-control" %>
+      <%= text_field_tag "questions_with_text[#{question.id}][answer_id]", company_answer(@company, question).try(:answer).try(:value), class: "form-control" %>
     </p>
     <br>
+  <% end %>
+
+  <% @company.event.questions.where(seminar: true).each_with_index do |question, index|%>
+    <% if index == 0 %>
+      <h4>What seminars are you planning to attend? Please select from the list:</h4>
+    <% end %>
+    <h5>
+      <%= check_box_tag "questions_seminars[#{question.id}][answer_id]", true, checked = company_answer(@company, question).present? ? true : false %>
+      <%= question.title %>
+    </h5>
   <% end %>
 
   <%= submit_tag 'NEXT', class: 'btn btn-primary' %>

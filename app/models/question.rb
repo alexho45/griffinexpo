@@ -25,3 +25,6 @@ class Question < ActiveRecord::Base
     event.questions << question_attend << question_attend_lunch << question_coctail << question_attendees_specifications
   end
 end
+
+# seminar questions example
+# Event.first.questions << Question.create(title: 'Seminar #2', key_word: :number_ецщ, seminar: true)

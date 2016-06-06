@@ -31,9 +31,8 @@ table.qr {
   }
   #wrap .container {
     float: left;
-    width:32%;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    width: 48%;
+    padding: 5px;
     border: 1px solid black;
   }
 
@@ -45,7 +44,7 @@ table.qr {
 </style>
 
 <div id="wrap">
-  <% badges.each_with_index do |badge, index| %>
+  <% (badges*10).each_with_index do |badge, index| %>
     <div class="container">
       <center>
         <b><%= badge[:name] %></b>
@@ -68,7 +67,7 @@ table.qr {
         </table>
       </center>
     </div>
-    <% if index != 0 && index%8 == 0 %>
+    <% if index != 0 && index%3 == 0 %>
       <p class="page-break">-</p>
     <% end %>
   <% end %>

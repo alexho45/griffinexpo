@@ -10,7 +10,7 @@
     company.representative_phone,
     company.registrant,
     company.attendees.count,
-    company.attendees.map(&:full_name).join(', '),
+    company.attendees.map(&:full_name).join(', ').strip,
     company.event.buses_companies.include?(company),
     company.coctail_answer,
     company.lunch_answer,
@@ -18,7 +18,7 @@
     company.hotels_events.any?,
     company.hotels_events.sum(:quantity),
     company.number_of_booked_rooms,
-    '-'
-  ]).html_safe.strip
+    company.seminars_answer.strip
+  ]).html_safe
 -%>
 <%- end -%>

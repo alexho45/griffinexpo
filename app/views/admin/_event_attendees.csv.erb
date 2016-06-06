@@ -4,9 +4,9 @@
 <%= CSV.generate_line(
   [
     attendee.full_name,
-    attendee.company.full_name,
+    attendee.company.try(:full_name),
     checked_attendees.include?(attendee),
-    ''
+    attendee.checked_seminars
   ]).html_safe
 -%>
 <%- end -%>

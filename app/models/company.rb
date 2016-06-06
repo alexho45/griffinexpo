@@ -102,6 +102,14 @@ class Company < ActiveRecord::Base
     end
   end
 
+  def seminars_answer
+    companies_answers
+      .select{|ca| event.seminar_questions.map(&:id).include?(ca.question_id) }
+      .map(&:question)
+      .map(&:title)
+      .join(', ')
+  end
+
 private
 
   def generate_access_token
