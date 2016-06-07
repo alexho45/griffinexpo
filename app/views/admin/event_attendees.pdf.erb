@@ -1,2 +1,18 @@
-
-<%= render template: 'admin/_event_attendees.html.erb', locals: { attendees: @attendees, checked_attendees: @checked_attendees } %>
+<table>
+  <tr>
+    <th>Full name</th>
+    <th>Company name</th>
+    <th>Checked</th>
+    <th>Seminars</th>
+  </tr>
+  <% attendees.each do |attendee| %>
+    <tr>
+      <td><%= attendee.full_name %></td>
+      <td><%= attendee.company.try(:full_name) %></td>
+      <td>
+        <%= checked_attendees.include?(attendee) %>
+      </td>
+      <td><%= attendee.checked_seminars %></td>
+    </tr>
+  <% end %>
+</table>

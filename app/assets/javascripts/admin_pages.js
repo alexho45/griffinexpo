@@ -39,8 +39,29 @@ $(function () {
 
   // Chechkins page
 
-  $(document).on('change', '#admin_select_event', function (e) {
+  $(document).on('change', '#admin_select_event, #admin_select_company', function (e) {
     $('#admin_checkins_search_form').submit();
+  });
+
+  var selectedAttendeesIds = [];
+  var updateSelectedAttendees = function () {
+    selectedAttendeesIds = [];
+    $.each($("input[name='selected_attendees[]']:checked"), function() {
+      selectedAttendeesIds.push(this.id);
+    });
+  }
+
+  var updateDownloadAttendeesLinks = function () {
+    updateSelectedAttendees();
+    $.each($('.selected-attendees'), function() {
+      this.href = this.dataset.path + '&attendees=' + selectedAttendeesIds.join(',');
+    });
+  }
+
+  updateDownloadAttendeesLinks();
+
+  $(document).on('change', 'input[name="selected_attendees[]"]', function (e) {
+    updateDownloadAttendeesLinks();
   });
 
 });

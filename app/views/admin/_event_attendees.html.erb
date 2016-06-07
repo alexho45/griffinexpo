@@ -1,5 +1,6 @@
 <table>
   <tr>
+    <th>Selected</th>
     <th>Full name</th>
     <th>Company name</th>
     <th>Checked</th>
@@ -7,10 +8,12 @@
   </tr>
   <% attendees.each do |attendee| %>
     <tr>
+      <td><%= check_box_tag "selected_attendees[]", nil, checked = true, id: attendee.id %></td>
       <td><%= attendee.full_name %></td>
       <td><%= attendee.company.try(:full_name) %></td>
       <td>
-        <%= check_box_tag "attendees[]", attendee.id, checked = checked_attendees.include?(attendee) %>
+        <%= hidden_field_tag "attendees[#{attendee.id}]", nil %>
+        <%= check_box_tag "attendees[#{attendee.id}]", nil, checked = checked_attendees.include?(attendee) %>
       </td>
       <td><%= attendee.checked_seminars %></td>
     </tr>

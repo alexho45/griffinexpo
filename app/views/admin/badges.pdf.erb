@@ -44,7 +44,7 @@ table.qr {
 </style>
 
 <div id="wrap">
-  <% (badges*10).each_with_index do |badge, index| %>
+  <% badges.each_with_index do |badge, index| %>
     <div class="container">
       <center>
         <b><%= badge[:name] %></b>
