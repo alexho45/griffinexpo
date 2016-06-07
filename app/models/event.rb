@@ -8,9 +8,20 @@ class Event < ActiveRecord::Base
 
   has_many :questions, :through => :questions_events
   has_many :questions_events, dependent: :destroy
+  accepts_nested_attributes_for :questions, reject_if: :all_blank, allow_destroy: true
 
   has_many :buses, :through => :buses_events
   has_many :buses_events, dependent: :destroy
+  accepts_nested_attributes_for :buses, reject_if: :all_blank, allow_destroy: true
+
+  has_many :hotels, :through => :hotels_events
+  has_many :hotels_events, dependent: :destroy
+  accepts_nested_attributes_for :hotels, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :hotels_events, reject_if: :all_blank, allow_destroy: true
+
+  has_many :packages, :through => :packages_events
+  has_many :packages_events, dependent: :destroy
+  accepts_nested_attributes_for :packages_events, reject_if: :all_blank, allow_destroy: true
 
   has_many :checked_attendees, :through => :check_ins, source: :attendee
   has_many :check_ins
@@ -42,5 +53,12 @@ class Event < ActiveRecord::Base
 
   def seminar_questions
     questions.where(seminar: true)
+  end
+
+  def update_all_attendees
+    self.attendees = companies
+                      .includes(:attendees)
+                      .map(&:attendees)
+                      .reduce(:+)
   end
 end

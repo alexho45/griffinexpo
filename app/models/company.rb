@@ -1,5 +1,7 @@
 class Company < ActiveRecord::Base
-  has_many :attendees, :through => :companies_attendee
+  has_many :attendees, :through => :companies_attendee,
+                       after_add: :attendees_changed,
+                       after_remove: :attendees_changed
   has_many :companies_attendee, dependent: :destroy
   accepts_nested_attributes_for :attendees, reject_if: :all_blank, allow_destroy: true
 
@@ -111,6 +113,10 @@ class Company < ActiveRecord::Base
   end
 
 private
+
+  def attendees_changed(attendee)
+    event.update_all_attendees
+  end
 
   def generate_access_token
     self.update_attribute(:access_token, SecureRandom.hex)

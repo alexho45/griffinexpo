@@ -11,27 +11,18 @@ class CheckinsController < ApplicationController
   end
 
   def download_event_attendees
-    attendees = Attendee
-                  .includes(:company)
-                  .where(id: params[:attendees]
-                  .split(','))
-    checked_attendees = if params[:event_id].present?
-                          Event.find(params[:event_id]).checked_attendees
-                        else
-                          []
-                        end
-
+    set_attendees
     respond_to do |format|
       format.csv do
         headers['Content-Type'] ||= 'text/csv'
         render template: "admin/_event_attendees",
-               locals: { attendees:         attendees,
-                         checked_attendees: checked_attendees }
+               locals: { attendees:         @attendees,
+                         checked_attendees: @checked_attendees }
       end
       format.pdf do
         html = render_to_string(template: "admin/event_attendees", 
-                                locals: { attendees:         attendees,
-                                          checked_attendees: checked_attendees })
+                                locals: { attendees:         @attendees,
+                                          checked_attendees: @checked_attendees })
         pdf = WickedPdf.new.pdf_from_string(html)
         send_data(pdf,
                   disposition: 'attachment')
@@ -40,17 +31,9 @@ class CheckinsController < ApplicationController
   end
 
   def print_bagdes
-    attendees = Attendee
-                  .includes(:company)
-                  .where(id: params[:attendees]
-                  .split(','))
-    checked_attendees = if params[:event_id].present?
-                          Event.find(params[:event_id]).checked_attendees
-                        else
-                          []
-                        end
+    set_attendees
     html = render_to_string(template: "admin/badges", 
-                            locals: { badges: badges(attendees) })
+                            locals: { badges: badges(@attendees) })
     pdf = WickedPdf.new.pdf_from_string(html)
     send_data(pdf,
               disposition: 'attachment')
@@ -73,6 +56,18 @@ class CheckinsController < ApplicationController
         end
       end
     end
+  end
+
+  def set_attendees
+    @attendees = Attendee
+                  .includes(:company)
+                  .where(id: params[:attendees]
+                  .split(','))
+    @checked_attendees = if params[:event_id].present?
+                          Event.find(params[:event_id]).checked_attendees
+                        else
+                          []
+                        end
   end
 
   def badges(attendees)

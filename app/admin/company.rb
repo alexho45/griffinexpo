@@ -30,13 +30,13 @@ ActiveAdmin.register Company do
     end
 
     f.has_many :attendees do |attendee|
-        if !attendee.object.nil?
-          attendee.input :_destroy, :as => :boolean, :label => "Destroy?"
-        end
-        unused_fields = ["id", "company_id"] 
-        (Attendee.column_names - unused_fields).each do |c|
-          attendee.input c.to_sym
-        end
+      if !attendee.object.nil?
+        attendee.input :_destroy, :as => :boolean, :label => "Destroy?"
+      end
+      unused_fields = ["id", "company_id"] 
+      (Attendee.column_names - unused_fields).each do |c|
+        attendee.input c.to_sym
+      end
     end
     actions
   end
