@@ -42,5 +42,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :imports, only: [] do
+    collection do
+      post :companies_from_xlsx
+    end
+  end
+
   root 'companies#in_process'
 end

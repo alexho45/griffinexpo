@@ -28,4 +28,4 @@ class Question < ActiveRecord::Base
 end
 
 # seminar questions example
-# Event.first.questions << Question.create(title: 'Seminar #2', key_word: :number_ецщ, seminar: true)
+# Event.first.questions << Question.create(title: 'Seminar #1', key_word: :number_one, seminar: true)

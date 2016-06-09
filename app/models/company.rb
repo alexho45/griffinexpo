@@ -112,6 +112,10 @@ class Company < ActiveRecord::Base
       .join(', ')
   end
 
+  def location
+    "#{city} #{us_state}"
+  end
+
 private
 
   def attendees_changed(attendee)

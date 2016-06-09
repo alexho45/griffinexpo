@@ -77,7 +77,14 @@ class CheckinsController < ApplicationController
                     action:      :register,
                     attendee_id: attendee.id)
       qr = RQRCode::QRCode.new(url)
-      { name: attendee.full_name, company_name: company.try(:name), qr: qr }
+      {
+        name: attendee.full_name.upcase,
+        company_name: company.try(:name).try(:upcase),
+        company_location: company.try(:location).try(:upcase),
+        company_cust: company.try(:account_number),
+        company_warehouse: company.try(:warehouse),
+        qr: qr
+      }
     end
   end
 

@@ -13,6 +13,10 @@ ActiveAdmin.register Event do
   filter :to
   filter :location
 
+  questions_heading = "You can update question answers in question admin panel after adding/saving question here.
+                       For seminar and text_field questions you should not add answers.
+                       Can be only seminar or text_field in one time."
+
   show do
     attributes_table do
       default_attribute_table_rows.each do |field|
@@ -32,7 +36,7 @@ ActiveAdmin.register Event do
       end
     end
 
-    panel "Questions" do
+    panel "Questions. #{questions_heading}" do
       table_for event.questions do
         Question.column_names.each do |c|
           column c.to_sym
@@ -87,7 +91,7 @@ ActiveAdmin.register Event do
       end
     end
 
-    f.has_many :questions do |question|
+    f.has_many :questions, heading: "Questions. #{questions_heading}" do |question|
       if !question.object.nil?
         question.input :_destroy, :as => :boolean, :label => "Destroy?"
       end
@@ -95,6 +99,7 @@ ActiveAdmin.register Event do
         question.input c.to_sym
       end
     end
+    para questions_heading
 
     # f.has_many :hotels do |hotel|
     #   if !hotel.object.nil?
@@ -105,7 +110,7 @@ ActiveAdmin.register Event do
     #   end
     # end
 
-    f.has_many :hotels_events do |hotel_event|
+    f.has_many :hotels_events, heading: 'Hotel rooms' do |hotel_event|
       if !hotel_event.object.nil?
         hotel_event.input :_destroy, :as => :boolean, :label => "Destroy?"
       end
@@ -116,7 +121,7 @@ ActiveAdmin.register Event do
       end
     end
 
-    f.has_many :packages_events do |package_event|
+    f.has_many :packages_events, heading: 'Packages' do |package_event|
       if !package_event.object.nil?
         package_event.input :_destroy, :as => :boolean, :label => "Destroy?"
       end

@@ -26,7 +26,11 @@ gem 'activeadmin', github: 'activeadmin'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+# countries & states
 gem 'carmen', git: 'https://github.com/jim/carmen', branch: 'master'
+
+# parse csv/xlsx
+gem 'roo', '~> 2.4.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

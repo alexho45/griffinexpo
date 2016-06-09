@@ -6,6 +6,16 @@ ActiveAdmin.register Company do
                 attendees_attributes: [:id, :first_name, :last_name,
                                        :email, :phone, :company_id, :_destroy]
 
+  index_unused_fields = ["id", "access_token", "updated_at", "created_at"]
+  index do
+    selectable_column
+    id_column
+    (Company.column_names - index_unused_fields).each do |c|
+      column c.to_sym
+    end
+    actions
+  end
+  
   show do
     attributes_table do
       default_attribute_table_rows.each do |field|
@@ -23,8 +33,10 @@ ActiveAdmin.register Company do
   end
 
   form do |f|
+    unused_fields = ["id", "company_id"]
+
     f.inputs "Company" do
-      Company.column_names.each do |c|
+      (Company.column_names - unused_fields).each do |c|
         f.input c.to_sym
       end
     end
@@ -33,7 +45,6 @@ ActiveAdmin.register Company do
       if !attendee.object.nil?
         attendee.input :_destroy, :as => :boolean, :label => "Destroy?"
       end
-      unused_fields = ["id", "company_id"] 
       (Attendee.column_names - unused_fields).each do |c|
         attendee.input c.to_sym
       end

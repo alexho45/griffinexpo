@@ -1,26 +1,26 @@
 
 <style type="text/css">
-table.qr {
-  border-width: 0;
-  border-style: none;
-  border-color: #0000ff;
-  border-collapse: collapse;
+  table.qr {
+    border-width: 0;
+    border-style: none;
+    border-color: #0000ff;
+    border-collapse: collapse;
   }
   td {
-   border-width: 0;
-   border-style: none;
-   border-color: #0000ff;
-   border-collapse: collapse;
-   padding: 0;
-   margin: 0;
-   width: 7px;
-   height: 7px;
-  }
-  td.black { background-color: #000; }
-  td.white { background-color: #fff; }
+    border-width: 0;
+    border-style: none;
+    border-color: #0000ff;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
+    width: 3px;
+    height: 3px;
+ }
+ td.black { background-color: #000; }
+ td.white { background-color: #fff; }
 
   #wrap {
-    width:100%;
+    display: block;
   }
   #wrap:after {
     content: ".";
@@ -30,9 +30,10 @@ table.qr {
     visibility: hidden;
   }
   #wrap .container {
-    float: left;
-    width: 48%;
-    padding: 5px;
+    width: 4in;
+    height: 3in;
+    padding-top: 25px;
+    padding-bottom: 5px;
     border: 1px solid black;
   }
 
@@ -41,17 +42,23 @@ table.qr {
     clear:both;
     page-break-after:always;
   }
+
+  .attendee-badge-name {
+    font-size: 36px;
+    display: inline-block;
+  }
+
+  .company-info {
+    font-size: 24px;
+    padding-top: 4px;
+    display: inline-block;
+  }
 </style>
 
-<div id="wrap">
-  <% badges.each_with_index do |badge, index| %>
+<% badges.each_with_index do |badge, index| %>
+  <div id="wrap">
     <div class="container">
       <center>
-        <b><%= badge[:name] %></b>
-        <br>
-        <b>(<%= badge[:company_name] %>)</b>
-        <br>
-        <br>
         <table class="qr">
           <% badge[:qr].modules.each_index do |x| -%>
             <tr>
@@ -65,10 +72,18 @@ table.qr {
             </tr>
           <% end -%>
         </table>
+        <br>
+        <b class="attendee-badge-name"><%= badge[:name] %></b>
+        <br>
+        <span class="company-info">Cust <%= "##{badge[:company_cust]} (#{badge[:company_warehouse]})" %></span>
+        <br>
+        <span class="company-info"><%= badge[:company_name] %></span>
+        <br>
+        <span class="company-info"><%= badge[:company_location] %></span>
       </center>
     </div>
-    <% if index != 0 && index%3 == 0 %>
+    <% if index != 0 && index % 2 == 0 %>
       <p class="page-break">-</p>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

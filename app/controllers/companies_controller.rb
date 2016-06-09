@@ -153,6 +153,8 @@ class CompaniesController < ApplicationController
                                answer_id:   answer_id,
                                company_id:  @company.id)
       end
+      params[:questions_with_text] = params[:questions_with_text] || {}
+      params[:questions_seminars] = params[:questions_seminars] || {}
       (params[:questions_with_text].merge(params[:questions_seminars])).each do |question|
         question_id = question.first
         answer = Answer.create(value:       question.second["answer_id"])
