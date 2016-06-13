@@ -6,11 +6,11 @@
 </h4>
 <br>
 
-<%= form_for @company, url: save_info_and_attendees_companies_path, method: :post, html: {  id: :company_info_form } do |f| %>
+<%= form_for @company, url: save_info_and_attendees_companies_path, method: :post, html: { id: :company_info_form } do |f| %>
   <div class="row input-row">
     <%= f.label :name, 'Company name:', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= f.text_field :name, class: "form-control", required: true %>
+      <%= f.text_field :name, class: "form-control company-name-input", required: true, data: { path: search_companies_path } %>
     </div>
   </div>
   <div class="row input-row">

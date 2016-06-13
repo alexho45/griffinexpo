@@ -28,8 +28,8 @@ class Event < ActiveRecord::Base
 
   after_create :init_questions
 
-  scope :future_events, -> { where(from: (Date.tomorrow..Date.tomorrow+10.years)) }
-  scope :past_events, -> { where(to:   (Date.tomorrow-10.years..Date.tomorrow)) }
+  scope :future_events, -> { where(from: (Date.tomorrow..10.years.from_now)).order(from: :asc) }
+  scope :past_events, -> { where(to: (10.years.ago..Date.tomorrow)) }
 
   def full_name
     "#{title} #{from.strftime("%d %b")} - #{to.strftime("%d %b")} (#{location})"

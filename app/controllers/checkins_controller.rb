@@ -39,25 +39,6 @@ class CheckinsController < ApplicationController
               disposition: 'attachment')
   end
 
-  def register
-    @attendee = nil
-    if params[:attendee_id].present?
-      @attendee = Attendee.find(params[:attendee_id])
-      @event = @attendee.event
-      if params[:seminar].present?
-        CheckIn.find_or_create_by(
-          event_id:    @event.id,
-          attendee_id: @attendee.id,
-          seminar:     params[:seminar]
-        )
-      else
-        if @attendee.event.checked_attendees.exclude?(@attendee)
-          @event.checked_attendees << @attendee
-        end
-      end
-    end
-  end
-
   def set_attendees
     @attendees = Attendee
                   .includes(:company)
@@ -73,10 +54,9 @@ class CheckinsController < ApplicationController
   def badges(attendees)
     attendees.map do |attendee|
       company = attendee.company
-      url = url_for(controller:  :checkins,
-                    action:      :register,
-                    attendee_id: attendee.id)
+      url = admin_register_url(attendee_id: attendee.id)
       qr = RQRCode::QRCode.new(url)
+      puts url
       {
         name: attendee.full_name.upcase,
         company_name: company.try(:name).try(:upcase),

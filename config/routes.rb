@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       # main
       get :in_process
 
+      get :search
+
       # common
       post :new_registration
       post :select_type
@@ -38,7 +40,6 @@ Rails.application.routes.draw do
       post :update_attendees
       post :download_event_attendees
       post :print_bagdes
-      get  :register
     end
   end
 

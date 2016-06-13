@@ -1,0 +1,26 @@
+
+<%= stylesheet_link_tag 'bootstrap.min' %>
+
+<% if @attendee.present? %>
+  <h4>
+    <%= @attendee.full_name %>
+    successfully checked in at
+    <%= @event.full_name %>
+    <% if params[:seminar].present? %>
+      on <%= params[:seminar] %>
+    <% end %>
+  </h4>
+
+  <%= form_tag admin_register_path, method: :get do %>
+    <br>
+    <br>
+    <h4>Choose seminar to check in attendee</h4>
+    <%= hidden_field_tag :attendee_id, @attendee.id %>
+    <div class="col-xs-5">
+      <%= select_tag :seminar, options_from_collection_for_select(@event.seminar_questions, :title, :title), prompt: "Select seminar", id: :admin_select_seminar, class: "form-control" %>
+    </div>
+    <%= submit_tag :check_in, class: 'btn btn-primary' %>
+  <% end %>
+<% else %>
+  <h3>Attendee/event not found!</h3>
+<% end %>

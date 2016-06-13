@@ -106,6 +106,17 @@ class CompaniesController < ApplicationController
 
   # End of actions
 
+  def search
+    companies = []
+    if params[:term].present?
+      companies = Company
+                    .select('name, address, registrant, representative_email, representative_phone, zip_code, us_state, city')
+                    .where("lower(name) LIKE ?", "%#{params[:term].downcase}%")
+                    .first(10)
+    end
+    render json: companies
+  end
+
   private
     def find_company
       @company =

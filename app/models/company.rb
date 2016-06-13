@@ -17,8 +17,8 @@ class Company < ActiveRecord::Base
   has_many :answers, :through => :companies_answers
   has_many :companies_answers, dependent: :destroy
 
-  validates_presence_of :company_type
-  validates_presence_of :process_step
+  # validates_presence_of :company_type
+  # validates_presence_of :process_step
 
   POSSIBLE_STEPS = [:select_event, :company_info,
                     :select_packages, :packages_order_verification, :select_payment_type, 
