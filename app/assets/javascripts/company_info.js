@@ -45,7 +45,9 @@ $(function () {
   });
 
 
-  var companies_search_url = $('.company-name-input')[0].dataset.path;
+  if ($('.company-name-input').length > 0) {
+    var companies_search_url = $('.company-name-input')[0].dataset.path;
+  }
 
   $( ".company-name-input" ).autocomplete({
       minLength: 2,

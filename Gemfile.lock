@@ -223,6 +223,8 @@ GEM
       json (~> 1.4)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
+    responsive_active_admin (0.0.5)
+      activeadmin
     roo (2.4.0)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -303,6 +305,7 @@ DEPENDENCIES
   puma
   rack-handlers
   rails (= 4.2.6)
+  responsive_active_admin
   roo (~> 2.4.0)
   rqrcode
   sass-rails (~> 5.0)

@@ -21,6 +21,7 @@ gem 'rqrcode'
 
 gem 'devise'
 gem 'activeadmin', github: 'activeadmin'
+gem 'responsive_active_admin'
 
 # pdf
 gem 'wicked_pdf'
