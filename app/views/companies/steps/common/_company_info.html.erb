@@ -52,6 +52,12 @@
       <%= f.text_field :representative_phone, class: "form-control phone-mask", required: true %>
     </div>
   </div>
+  <div class="row input-row">
+    <%= label_tag :i_am_an_attendee, 'I am an attendee', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= check_box_tag :i_am_an_attendee, class: "form-control phone-mask" %>
+    </div>
+  </div>
   <br>
 
   <h3>Attendees</h3>

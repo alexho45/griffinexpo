@@ -18,16 +18,31 @@ $(function () {
     }
   }
 
-  if ($('#company_info_form').size() > 0) {
+  if ($('#company_info_form').length > 0) {
     $(".add_fields").click();
 
     $('#company_info_form').submit( function(e) {
-      if ($('.nested-fields').size() == 0) {
+      if ($('.nested-fields').length == 0) {
         e.preventDefault();
         $('.attendees-count-error').show();
       }
     });
   }
+
+  $(document).on('change', '#i_am_an_attendee', function () {
+    if (this.checked && $('.nested-fields').length > 0) {
+      registrantName = $('#company_registrant').val().split(" ");
+      firstName = registrantName[0];
+      lastName = registrantName[1];
+      email = $('#company_representative_email').val();
+      phone = $('#company_representative_phone').val();
+
+      $('.attendee-first-name').first().val(firstName);
+      $('.attendee-last-name').first().val(lastName);
+      $('.attendee-email').first().val(email);
+      $('.attendee-phone').first().val(phone);
+    }
+  });
 
 
   var companies_search_url = $('.company-name-input')[0].dataset.path;
@@ -36,7 +51,6 @@ $(function () {
       minLength: 2,
       source: companies_search_url,
       select: function( event, ui ) {
-        console.log(ui.item)
         $('#company_registrant').val(ui.item.registrant);
         $('#company_name').val(ui.item.name);
         $('#company_address').val(ui.item.address);
