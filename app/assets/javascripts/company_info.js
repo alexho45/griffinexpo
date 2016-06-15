@@ -19,7 +19,9 @@ $(function () {
   }
 
   if ($('#company_info_form').length > 0) {
-    $(".add_fields").click();
+    if ($('.nested-fields').length == 0) {
+      $(".add_fields").click();
+    }
 
     $('#company_info_form').submit( function(e) {
       if ($('.nested-fields').length == 0) {

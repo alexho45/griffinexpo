@@ -31,7 +31,6 @@ class CompaniesController < ApplicationController
 
   def save_info_and_attendees
     if @company.update_attributes(company_params)
-      @company.event.attendees << @company.attendees
       @company.next_step
     end
     redirect_to in_process_companies_path
@@ -40,9 +39,12 @@ class CompaniesController < ApplicationController
   # Vendor custom actions
 
   def select_packages
-    @company.packages_events.destroy_all
-    create_packages_events
-    @company.next_step
+    if params[:step_back].present?
+      @company.previous_step
+    else
+      create_packages_events
+      @company.next_step
+    end
     redirect_to in_process_companies_path
   end
 
@@ -58,8 +60,12 @@ class CompaniesController < ApplicationController
   # Customer custom actions
 
   def questions
-    create_companies_answers
-    @company.next_step
+    if params[:step_back].present?
+      @company.previous_step
+    else
+      create_companies_answers
+      @company.next_step
+    end
     redirect_to in_process_companies_path
   end
 
@@ -68,7 +74,7 @@ class CompaniesController < ApplicationController
       @company.previous_step
     else
       create_buses_events
-      @company.next_step      
+      @company.next_step
     end
     redirect_to in_process_companies_path
   end
@@ -130,6 +136,7 @@ class CompaniesController < ApplicationController
     end
 
     def create_packages_events
+      @company.packages_events.destroy_all
       params[:packages].each do |package|
         if package.second["checked"]
           package_id = package.first
