@@ -49,5 +49,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :payments, only: [] do
+    collection do
+      get :credit_card
+      post :validate
+    end
+  end
+
   root 'companies#in_process'
 end

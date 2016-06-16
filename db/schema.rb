@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615070016) do
+ActiveRecord::Schema.define(version: 20160616082302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -223,6 +223,18 @@ ActiveRecord::Schema.define(version: 20160615070016) do
   add_index "packages_events", ["event_id"], name: "index_packages_events_on_event_id", using: :btree
   add_index "packages_events", ["package_id"], name: "index_packages_events_on_package_id", using: :btree
 
+  create_table "payment_actions", force: :cascade do |t|
+    t.string   "name"
+    t.string   "response"
+    t.integer  "company_id"
+    t.string   "type"
+    t.text     "payment_data"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "payment_actions", ["company_id"], name: "index_payment_actions_on_company_id", using: :btree
+
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.boolean  "text_field", default: false
@@ -274,6 +286,7 @@ ActiveRecord::Schema.define(version: 20160615070016) do
   add_foreign_key "packages_events", "companies", on_delete: :cascade
   add_foreign_key "packages_events", "events", on_delete: :cascade
   add_foreign_key "packages_events", "packages", on_delete: :cascade
+  add_foreign_key "payment_actions", "companies"
   add_foreign_key "questions_answers", "answers", on_delete: :cascade
   add_foreign_key "questions_answers", "questions", on_delete: :cascade
   add_foreign_key "questions_events", "events", on_delete: :cascade

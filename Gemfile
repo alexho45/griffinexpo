@@ -33,6 +33,9 @@ gem 'carmen', git: 'https://github.com/jim/carmen', branch: 'master'
 # parse csv/xlsx
 gem 'roo', '~> 2.4.0'
 
+# payments
+gem 'braintree'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

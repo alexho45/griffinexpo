@@ -66,11 +66,22 @@ $(function () {
  
         return false;
       }
-    })
-    .autocomplete( "instance" )._renderItem = function( ul, item ) {
-      return $( "<li>" )
-        .append("<a>" + item.name + "<br>(" + item.address + ")</a>" )
-        .appendTo( ul );
-    };
+  })
+  .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    return $( "<li>" )
+      .append("<a>" + item.name + "<br>(" + item.address + ")</a>" )
+      .appendTo( ul );
+  };
+
+  $('.credit-card-redirect').hide();
+  $(document).on('change', '[name="company[payment_type]"]', function() {
+    var val = $(this).val();
+    if (val == 'credit_card') {
+      $('.credit-card-redirect').show();
+    }
+    else {
+      $('.credit-card-redirect').hide();
+    }
+  });
 
 });

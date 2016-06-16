@@ -1,0 +1,13 @@
+
+<h3>Welcome to payment page, <%= @company.full_name %></h3>
+<h3>Subtotal: <%= "$#{@company.subtotal}" %></h3>
+
+<% if (params[:success].present? && params[:success] == "true") || @company.accepted? %>
+  <h3>Your payment was successful. Thank you.</h3>
+<% else %>
+  <%= form_tag validate_payments_path, id: :billing, data: { token: @client_token } do %>
+    <div id="dropin"></div>
+    <%= hidden_field_tag :company_access_token, @company.access_token %>
+    <%= submit_tag 'Confirm', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>

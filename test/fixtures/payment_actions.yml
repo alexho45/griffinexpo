@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  response: MyString
+  company_id: 
+  type: 
+  payment_data: MyText
+
+two:
+  name: MyString
+  response: MyString
+  company_id: 
+  type: 
+  payment_data: MyText

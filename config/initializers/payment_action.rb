@@ -1,0 +1,2 @@
+
+Rails.configuration.PAYMENT_ENVIRONMENT = ENV['PAYMENT_ENVIRONMENT']
