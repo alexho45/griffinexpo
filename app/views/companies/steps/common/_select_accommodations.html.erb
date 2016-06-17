@@ -5,14 +5,14 @@
   <% Hotel.first(1).each do |hotel| %>
     <% hotels_event = HotelsEvent.find_by(company_id: @company.id, event_id: @company.event.id, hotel_id: hotel.id) %>
     <h4>
-      <%= radio_button_tag "hotels[#{hotel.id}][checked]", true, checked = hotels_event.present? || true %> Yes
+      <%= radio_button_tag "hotels[#{hotel.id}][checked]", true, checked = session[:accomodations_answer_checked] %> Yes
     </h4>
     <h4>
-      <%= radio_button_tag "hotels[#{hotel.id}][checked]", false, checked = !hotels_event.present? || false %> No
+      <%= radio_button_tag "hotels[#{hotel.id}][checked]", false, checked = !session[:accomodations_answer_checked] %> No
     </h4>
 
     If yes, how many rooms will be required?:
-    <%= text_field_tag "hotels[#{hotel.id}][quantity]", hotels_event.try(:quantity) || 1 %>
+    <%= number_field_tag "hotels[#{hotel.id}][quantity]", hotels_event.try(:quantity) || 1, required: true, min: 0 %>
     
     <hr>
   <% end %>

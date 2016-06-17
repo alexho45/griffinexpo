@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616082302) do
+ActiveRecord::Schema.define(version: 20160616135133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,14 +128,15 @@ ActiveRecord::Schema.define(version: 20160616082302) do
     t.integer  "payment_type"
     t.string   "confirmation_token"
     t.integer  "process_step"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "us_state"
     t.string   "zip_code"
     t.string   "city"
     t.integer  "number_of_booked_rooms"
     t.integer  "warehouse"
     t.string   "account_number"
+    t.boolean  "imported",               default: false
   end
 
   add_index "companies", ["name"], name: "index_companies_on_name", using: :btree

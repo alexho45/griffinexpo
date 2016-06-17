@@ -3,7 +3,6 @@ ActiveAdmin.register Event do
                 buses_attributes: [:id, :title, :seats_limit, :event_id, :_destroy],
                 questions_attributes: [:id, :title, :text_field, :key_word,
                                        :seminar, :event_id, :_destroy],
-                # hotels_attributes: [:name, :price, :_destroy],
                 hotels_events_attributes: [:id, :company_id, :hotel_id, :quantity, :event_id, :_destroy],
                 packages_events_attributes: [:id, :company_id, :package_id, :event_id,
                                              :quantity, :electricity, :_destroy]
@@ -80,7 +79,7 @@ ActiveAdmin.register Event do
       end
     end
 
-    unused_fields = ["id", "event_id", "company_id", "hotel_id", "package_id"]
+    unused_fields = ["id", "event_id", "company_id", "hotel_id", "package_id", "updated_at", "created_at"]
 
     f.has_many :buses do |bus|
       if !bus.object.nil?

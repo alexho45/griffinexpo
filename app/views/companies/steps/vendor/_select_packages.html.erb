@@ -5,11 +5,11 @@
   <% Package.first(1).each do |package| %>
     <% packages_event = PackagesEvent.find_by(company_id: @company.id, event_id: @company.event.id, package_id: package.id) %>
     <h4>
-      <%= check_box_tag "packages[#{package.id}][checked]", package.id, checked = packages_event.present? %>
+      <%= radio_button_tag "packages[#{package.id}][checked]", package.id, checked = true %>
       <%= package.full_name.html_safe %>
     </h4>
     Number of Booths Required:
-    <%= text_field_tag "packages[#{package.id}][quantity]", packages_event.try(:quantity) || 1 %>
+    <%= number_field_tag "packages[#{package.id}][quantity]", packages_event.try(:quantity) || 1, requred: true, min: 1 %>
     <br>
     Do you require electricity for your booth:
     <%= radio_button_tag "packages[#{package.id}][electricity]", 1, checked = packages_event.try(:electricity?) || true %> Yes

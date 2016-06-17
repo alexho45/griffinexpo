@@ -1,6 +1,6 @@
 module ImportCompanies
 
-  def self.parse_and_import(file)
+  def self.parse_and_import(file, company_type)
     us = Carmen::Country.coded("us")
     xlsx = Roo::Excelx.new(file)
     sheet = xlsx.sheet(0)
@@ -28,7 +28,9 @@ module ImportCompanies
                                   us_state:             us_state,
                                   zip_code:             hash[:zip_code],
                                   representative_phone: hash[:phone_number],
-                                  representative_email: hash[:email])
+                                  representative_email: hash[:email],
+                                  company_type:         company_type,
+                                  imported:             true)
       end
     end
   end

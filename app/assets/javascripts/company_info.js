@@ -3,7 +3,7 @@ $(function () {
   $(".phone-mask").mask("(999) 999-9999", {autoclear: false});
 
   $(".phone-mask").on("blur", function() {
-    updatePhoneField($(".phone-mask"));
+    updatePhoneField($(this));
   });
 
   var updatePhoneField = function(phoneField) {
@@ -28,21 +28,34 @@ $(function () {
         e.preventDefault();
         $('.attendees-count-error').show();
       }
+      $('.phone-mask').each(function (index, entry) {
+        if ($(entry).val().length < 14) {
+          e.preventDefault();
+          $('.phone-number-length-error').show();
+        }
+      });
     });
   }
 
-  $(document).on('change', '#i_am_an_attendee', function () {
-    if (this.checked && $('.nested-fields').length > 0) {
+  $(document).on('change', '#i_am_also_an_attendee', function () {
+    if (this.checked) {
       registrantName = $('#company_registrant').val().split(" ");
       firstName = registrantName[0];
       lastName = registrantName[1];
       email = $('#company_representative_email').val();
       phone = $('#company_representative_phone').val();
 
-      $('.attendee-first-name').first().val(firstName);
-      $('.attendee-last-name').first().val(lastName);
-      $('.attendee-email').first().val(email);
-      $('.attendee-phone').first().val(phone);
+      if ($('.nested-fields').length == 0) {
+        $(".add_fields").click();
+      }
+      else if (!!$('.attendee-first-name').last().val() && !!$('.attendee-last-name').last().val() && !!$('.attendee-email').last().val() && !!$('.attendee-phone').last().val()) {
+        $(".add_fields").click();
+      }
+
+      $('.attendee-first-name').last().val(firstName);
+      $('.attendee-last-name').last().val(lastName);
+      $('.attendee-email').last().val(email);
+      $('.attendee-phone').last().val(phone);
     }
   });
 
@@ -63,6 +76,8 @@ $(function () {
         $('#company_zip_code').val(ui.item.zip_code);
         $('#company_us_state').val(ui.item.us_state);
         $('#company_city').val(ui.item.city);
+        $('#company_warehouse').val(ui.item.warehouse);
+        $('#company_account_number').val(ui.item.account_number);
  
         return false;
       }

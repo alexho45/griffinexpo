@@ -21,8 +21,16 @@ class PaymentsController < ApplicationController
       @company.update_attribute(:payment_status, :accepted)
     end
 
+    errors =
+      if payment_result.errors
+        payment_result.errors.map do |error|
+          "Code: #{error.code}, Error: #{error.message}"
+        end
+      end.join(' | ')
+
     redirect_to credit_card_payments_path(company_access_token: @company.access_token,
-                                          success: payment_result.success?)
+                                          success: payment_result.success?,
+                                          errors: errors)
   end
 
 

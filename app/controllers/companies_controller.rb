@@ -16,6 +16,7 @@ class CompaniesController < ApplicationController
 
     if @company.save
       session[:company_access_token] = @company.access_token
+      session[:accomodations_answer_checked] = true
     end
     redirect_to in_process_companies_path
   end
@@ -115,8 +116,14 @@ class CompaniesController < ApplicationController
   def search
     companies = []
     if params[:term].present?
+      select_attributes = %w(
+        account_number, warehouse,
+        name, registrant, representative_email, representative_phone,
+        address, zip_code, us_state, city
+      ).join
       companies = Company
-                    .select('name, address, registrant, representative_email, representative_phone, zip_code, us_state, city')
+                    .select(select_attributes)
+                    .send(@company.company_type)
                     .where("lower(name) LIKE ?", "%#{params[:term].downcase}%")
                     .first(10)
     end
@@ -160,6 +167,7 @@ class CompaniesController < ApplicationController
                              quantity:    hotel.second["quantity"])
         end
       end
+      session[:accomodations_answer_checked] = HotelsEvent.where(company_id: @company.id).any?
     end
 
     def create_companies_answers
@@ -207,7 +215,7 @@ class CompaniesController < ApplicationController
         .require(:company)
         .permit(:name, :registrant, :address, :representative_email, :zip_code, :us_state, :city,
                 :representative_phone, :company_type, :access_token, :payment_status,
-                :payment_type, :confirmation_token, :process_step,
+                :payment_type, :confirmation_token, :process_step, :account_number, :warehouse,
                 attendees_attributes: [:id, :first_name, :last_name,
                                        :email, :phone, :company_id, :_destroy])
     end

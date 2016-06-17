@@ -7,7 +7,7 @@ body {
   width: 100%;
 }
 
-.buses-error, .attendees-count-error {
+.buses-error, .attendees-count-error, .phone-number-length-error {
   padding: 15px 0 15px 0;
   color: red;
   font-size: 16px;

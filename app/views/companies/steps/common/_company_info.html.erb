@@ -52,10 +52,12 @@
       <%= f.text_field :representative_phone, class: "form-control phone-mask", required: true %>
     </div>
   </div>
+  <%= f.hidden_field :warehouse, value: @company.warehouse %>
+  <%= f.hidden_field :account_number, value: @company.account_number %>
   <div class="row input-row">
-    <%= label_tag :i_am_an_attendee, 'I am an attendee', class: 'col-sm-3 control-label' %>
+    <%= label_tag :i_am_also_an_attendee, 'I am also an attendee', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= check_box_tag :i_am_an_attendee, class: "form-control phone-mask" %>
+      <%= check_box_tag :i_am_also_an_attendee, class: "form-control phone-mask" %>
     </div>
   </div>
   <br>
@@ -80,6 +82,9 @@
 
   <div class="attendees-count-error">
     You should have at least one attendee
+  </div>
+  <div class="phone-number-length-error">
+    Every phone number should contain 10 digits
   </div>
 
   <%= link_to_add_association 'add attendee', f, :attendees, partial: 'attendees/form', class: 'btn btn-success', 'data-association-insertion-method' => 'append','data-association-insertion-node' => 'tbody' %>

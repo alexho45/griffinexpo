@@ -1,12 +1,35 @@
 ActiveAdmin.register Company do
 
   permit_params :name, :registrant, :address, :representative_email, :zip_code, :us_state, :city,
-                :representative_phone, :company_type, :access_token, :payment_status,
+                :representative_phone, :company_type, :access_token, :payment_status, :imported,
                 :payment_type, :confirmation_token, :process_step,
                 attendees_attributes: [:id, :first_name, :last_name,
                                        :email, :phone, :company_id, :_destroy]
 
-  index_unused_fields = ["id", "access_token", "updated_at", "created_at"]
+  scope :default, :default => true do |companies|
+    companies.where(imported: false)
+  end
+  scope :imported_vendor do |companies|
+    companies.vendor.where(imported: true)
+  end
+  scope :imported_customer do |companies|
+    companies.customer.where(imported: true)
+  end
+
+  batch_action :destroy_all_from_this_scope_not_only do |company_ids|
+    collection = 
+      if params[:scope] == "imported_vendor"
+        Company.vendor.where(imported: true)
+      elsif params[:scope] == "imported_customer"
+        Company.customer.where(imported: true)
+      else
+        Company.where(imported: false)
+      end
+    collection.destroy_all
+    redirect_to collection_path
+  end
+
+  index_unused_fields = ["id", "access_token", "updated_at", "created_at", "imported"]
   index do
     selectable_column
     id_column
@@ -33,7 +56,7 @@ ActiveAdmin.register Company do
   end
 
   form do |f|
-    unused_fields = ["id", "company_id"]
+    unused_fields = ["id", "company_id", "updated_at", "created_at"]
 
     f.inputs "Company" do
       (Company.column_names - unused_fields).each do |c|
