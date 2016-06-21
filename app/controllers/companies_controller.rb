@@ -5,6 +5,9 @@ class CompaniesController < ApplicationController
 
   def new_registration
     session.delete(:company_access_token)
+    session.delete(:accomodations_answer_checked)
+    session.delete(:are_you_currently_a_customer)
+    session.delete(:accomodations_answer_checked)
     redirect_to root_path
   end
 
@@ -32,6 +35,7 @@ class CompaniesController < ApplicationController
 
   def save_info_and_attendees
     if @company.update_attributes(company_params)
+      update_company_session_attributes
       @company.next_step
     end
     redirect_to in_process_companies_path
@@ -140,6 +144,21 @@ class CompaniesController < ApplicationController
         else
           Company.new
         end
+    end
+
+    def update_company_session_attributes
+      if !params[:are_you_currently_a_customer].present? || params[:are_you_currently_a_customer] == "0"
+        session[:are_you_currently_a_customer] = false
+        @company.update_attribute(:account_number, 9999)
+      else
+        session[:are_you_currently_a_customer] = true
+      end
+
+      if !params[:i_am_also_an_attendee].present? || params[:i_am_also_an_attendee] == "0"
+        session[:i_am_also_an_attendee] = false
+      else
+        session[:i_am_also_an_attendee] = true
+      end
     end
 
     def create_packages_events
