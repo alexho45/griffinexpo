@@ -60,33 +60,33 @@ $(function () {
   });
 
 
-  if ($('.company-name-input').length > 0) {
-    var companies_search_url = $('.company-name-input')[0].dataset.path;
-  }
+  // if ($('.company-name-input').length > 0) {
+  //   var companies_search_url = $('.company-name-input')[0].dataset.path;
+  // }
 
-  $( ".company-name-input" ).autocomplete({
-      minLength: 2,
-      source: companies_search_url,
-      select: function( event, ui ) {
-        $('#company_registrant').val(ui.item.registrant);
-        $('#company_name').val(ui.item.name);
-        $('#company_address').val(ui.item.address);
-        $('#company_representative_email').val(ui.item.representative_email);
-        $('#company_representative_phone').val(ui.item.representative_phone);
-        $('#company_zip_code').val(ui.item.zip_code);
-        $('#company_us_state').val(ui.item.us_state);
-        $('#company_city').val(ui.item.city);
-        $('#company_warehouse').val(ui.item.warehouse);
-        $('#company_account_number').val(ui.item.account_number);
+  // $( ".company-name-input" ).autocomplete({
+  //     minLength: 2,
+  //     source: companies_search_url,
+  //     select: function( event, ui ) {
+  //       $('#company_registrant').val(ui.item.registrant);
+  //       $('#company_name').val(ui.item.name);
+  //       $('#company_address').val(ui.item.address);
+  //       $('#company_representative_email').val(ui.item.representative_email);
+  //       $('#company_representative_phone').val(ui.item.representative_phone);
+  //       $('#company_zip_code').val(ui.item.zip_code);
+  //       $('#company_us_state').val(ui.item.us_state);
+  //       $('#company_city').val(ui.item.city);
+  //       $('#company_warehouse').val(ui.item.warehouse);
+  //       $('#company_account_number').val(ui.item.account_number);
  
-        return false;
-      }
-  })
-  .autocomplete( "instance" )._renderItem = function( ul, item ) {
-    return $( "<li>" )
-      .append("<a>" + item.name + "<br>(" + item.address + ")</a>" )
-      .appendTo( ul );
-  };
+  //       return false;
+  //     }
+  // })
+  // .autocomplete( "instance" )._renderItem = function( ul, item ) {
+  //   return $( "<li>" )
+  //     .append("<a>" + item.name + "<br>(" + item.address + ")</a>" )
+  //     .appendTo( ul );
+  // };
 
   $('.credit-card-redirect').hide();
   $(document).on('change', '[name="company[payment_type]"]', function() {

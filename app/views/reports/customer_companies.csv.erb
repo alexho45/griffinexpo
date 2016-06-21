@@ -12,13 +12,13 @@
     company.attendees.count,
     company.attendees.map(&:full_name).join(', ').strip,
     company.event.buses_companies.include?(company),
-    company.coctail_answer,
-    company.lunch_answer,
-    company.food_allergies_answer,
+    company.coctail_answers,
+    company.lunch_answers,
+    company.food_allergies_answers,
     company.hotels_events.any?,
     company.hotels_events.sum(:quantity),
     company.number_of_booked_rooms,
-    company.seminars_answer.strip
+    company.seminars_answers.strip
   ]).html_safe
 -%>
 <%- end -%>

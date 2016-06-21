@@ -172,21 +172,26 @@ class CompaniesController < ApplicationController
 
     def create_companies_answers
       @company.companies_answers.destroy_all
-      params[:questions].each do |question|
-        question_id = question.first
-        answer_id = question.second["answer_id"]
-        CompaniesAnswer.create(question_id: question_id,
-                               answer_id:   answer_id,
-                               company_id:  @company.id)
+      params[:questions].each do |question, values|
+        question_id = question
+        values.each do |attendee_id, answer_id|
+          CompaniesAnswer.create(question_id: question_id,
+                                 answer_id:   answer_id,
+                                 company_id:  @company.id,
+                                 attendee_id: attendee_id)
+        end
       end
       params[:questions_with_text] = params[:questions_with_text] || {}
       params[:questions_seminars] = params[:questions_seminars] || {}
-      (params[:questions_with_text].merge(params[:questions_seminars])).each do |question|
-        question_id = question.first
-        answer = Answer.create(value:       question.second["answer_id"])
-        CompaniesAnswer.create(question_id: question_id,
-                               answer_id:   answer.id,
-                               company_id:  @company.id)
+      (params[:questions_with_text].merge(params[:questions_seminars])).each do |question, values|
+        question_id = question
+        values.each do |attendee_id, answer_value|
+          answer = Answer.create(value:       answer_value)
+          CompaniesAnswer.create(question_id: question_id,
+                                 answer_id:   answer.id,
+                                 company_id:  @company.id,
+                                 attendee_id: attendee_id)
+        end
       end
     end
 

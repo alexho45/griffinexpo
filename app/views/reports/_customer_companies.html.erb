@@ -18,13 +18,13 @@
         <td><%= company.attendees.count %></td>
         <td><%= company.attendees.map(&:full_name).join(', ') %></td>
         <td><%= company.event.buses_companies.include?(company) %></td>
-        <td><%= company.coctail_answer %></td>
-        <td><%= company.lunch_answer %></td>
-        <td><%= company.food_allergies_answer %></td>
+        <td><%= company.coctail_answers %></td>
+        <td><%= company.lunch_answers %></td>
+        <td><%= company.food_allergies_answers %></td>
         <td><%= company.hotels_events.any? %></td>
         <td><%= company.hotels_events.sum(:quantity) %></td>
         <td><%= company.number_of_booked_rooms %></td>
-        <td><%= company.seminars_answer %></td>
+        <td><%= company.seminars_answers %></td>
       </tr>
     <% end %>
   </tbody>

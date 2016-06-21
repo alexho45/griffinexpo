@@ -4,12 +4,18 @@ module CompaniesHelper
     Carmen::Country.named('United States').subregions.typed('state').map(&:name)
   end
 
-  def company_answer_radio(company, possible_answer)
-    company.companies_answers.select{|ca| ca.answer_id == possible_answer.id }.try(:first)
+  def company_answer_radio(company, possible_answer, attendee)
+    company
+      .companies_answers
+      .where(answer_id: possible_answer.id, attendee_id: attendee.id)
+      .try(:first)
   end
 
-  def company_answer(company, question)
-    company.companies_answers.select{|ca| ca.question_id == question.id }.try(:first)
+  def company_answer(company, question, attendee)
+    company
+      .companies_answers
+      .where(question_id: question.id, attendee_id: attendee.id)
+      .try(:first)
   end
 
 end

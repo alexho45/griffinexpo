@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       # main
       get :in_process
 
-      get :search
+      # get :search
 
       # common
       post :new_registration

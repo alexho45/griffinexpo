@@ -16,7 +16,7 @@ class Question < ActiveRecord::Base
         question_attend_lunch.answers << Answer.create(title: "Day #{day} & #{day+1}")
       end
     end
-    question_attend_lunch.answers << Answer.create(title: "None (We will not be attending any luncheons)")
+    question_attend_lunch.answers << Answer.create(title: "None")
 
     question_coctail = Question.create(title: "Are you planning on attending the “Cocktail” Hour on Day 1 of the EXPO", key_word: :coctail)
     question_coctail.answers << Answer.create(title: "Yes") << Answer.create(title: "No")

@@ -3,37 +3,50 @@
 
 <%= form_tag(questions_companies_path, method: :post) do %>
 
-  <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
-    <h4><%= question.title %></h4>
-    <% question.answers.each_with_index do |possible_answer, index| %>
-      <h5>
-        <%= radio_button_tag "questions[#{question.id}][answer_id]", possible_answer.id, checked = company_answer_radio(@company, possible_answer).present? ? true : (index == 0 ? true : false) %>
-        <%= possible_answer.title %>
-      </h5>
+  <table class="table-bordered questions-table">
+    <tr>
+      <th>Attendee</th>
+      <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
+        <th><%= question.title %></th>
+      <% end %>
+      <% @company.event.questions.where(text_field: true).each do |question| %>
+        <th><%= question.title %></th>
+      <% end %>
+      <th>
+        What seminars are you planning to attend? Please select from the list:
+      </th>
+    </tr>
+
+    <% @company.attendees.each do |attendee| %>
+      <tr>
+        <td><%= attendee.full_name %></td>
+        <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
+          <td>
+            <% question.answers.each_with_index do |possible_answer, index| %>
+              <%= radio_button_tag "questions[#{question.id}][#{attendee.id}]", possible_answer.id, checked = company_answer_radio(@company, possible_answer, attendee).present? ? true : (index == 0 ? true : false) %>
+              <%= possible_answer.title %>
+              <br>
+            <% end %>
+          </td>
+        <% end %>
+        <% @company.event.questions.where(text_field: true).each do |question| %>
+          <td>
+            <%= text_field_tag "questions_with_text[#{question.id}][#{attendee.id}]", company_answer(@company, question, attendee).try(:answer).try(:value), class: "form-control" %>
+          </td>
+        <% end %>
+        <td>
+          <% @company.event.questions.where(seminar: true).each_with_index do |question, index|%>
+            <%= check_box_tag "questions_seminars[#{question.id}][#{attendee.id}]", true, checked = company_answer(@company, question, attendee).present? ? true : false %>
+            <%= question.title %>
+            <br>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-    <br>
-  <% end %>
 
-  <% @company.event.questions.where(text_field: true).each do |question| %>
-    <h4><%= question.title %></h4>
-    <p>
-      <%= text_field_tag "questions_with_text[#{question.id}][answer_id]", company_answer(@company, question).try(:answer).try(:value), class: "form-control" %>
-    </p>
-    <br>
-  <% end %>
-
-  <% @company.event.questions.where(seminar: true).each_with_index do |question, index|%>
-    <% if index == 0 %>
-      <h4>What seminars are you planning to attend? Please select from the list:</h4>
-    <% end %>
-    <h5>
-      <%= check_box_tag "questions_seminars[#{question.id}][answer_id]", true, checked = company_answer(@company, question).present? ? true : false %>
-      <%= question.title %>
-    </h5>
-  <% end %>
-
+  </table>
+  
   <%= submit_tag 'BACK', class: 'btn btn-primary', name: :step_back %>
   <%= submit_tag 'NEXT', class: 'btn btn-primary' %>
 
 <% end %>
-

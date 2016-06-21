@@ -95,21 +95,26 @@ class Company < ActiveRecord::Base
   end
 
   %w(lunch coctail food_allergies).each do |key_word|
-    define_method("#{key_word}_answer") do
+    define_method("#{key_word}_answers") do
       companies_answers
         .select{|ca| ca.question_id == event.send("#{key_word}_question").id }
-        .try(:first)
-        .try(:answer)
-        .try(:title)
+        .group_by(&:answer)
+        .map do |answer, array|
+          next if !answer.title
+          "#{answer.title} (#{array.size})"
+        end
+        .compact
+        .join(', ')
     end
   end
 
-  def seminars_answer
+  def seminars_answers
     companies_answers
       .select{|ca| event.seminar_questions.map(&:id).include?(ca.question_id) }
-      .map(&:question)
-      .map(&:title)
-      .join(', ')
+      .group_by(&:question)
+      .map do |question, array|
+        "#{question.title} (#{array.size})"
+      end.join(', ')
   end
 
   def location
