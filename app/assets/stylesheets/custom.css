@@ -25,3 +25,27 @@ body {
 .questions-table th, .questions-table td {
   padding: 5px;
 }
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  margin-left: -400px !important;
+}
+
+.modal-content {
+  width: 1020px;
+}

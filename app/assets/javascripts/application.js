@@ -17,4 +17,6 @@
 //= require jquery.mask
 //= require jquery-ui
 //= require cocoon
+//= require jquery.maxlength.min
+//= require regex-mask-plugin
 //= require_tree .

@@ -7,7 +7,7 @@ class CompaniesController < ApplicationController
     session.delete(:company_access_token)
     session.delete(:accomodations_answer_checked)
     session.delete(:are_you_currently_a_customer)
-    session.delete(:accomodations_answer_checked)
+    session.delete(:i_am_also_an_attendee)
     redirect_to root_path
   end
 

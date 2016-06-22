@@ -3,7 +3,7 @@
 <%- bus.attendees.each do |attendee| -%>
 <%= CSV.generate_line(
   [
-    attendee.company.name,
+    attendee.company.try(:name),
     attendee.first_name,
     attendee.last_name
   ]).html_safe

@@ -1,5 +1,7 @@
 ActiveAdmin.register_page "Checkins" do
 
+  menu label: 'Attendee Check-In & Badge Printing'
+
   content do
     render :template => 'admin/checkins'
   end

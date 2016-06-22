@@ -4,7 +4,7 @@
 <h5>
   Would you require transportation to and from the EXPO to your hotel?
   <br>
-  (You can check schedule <a href="http://www.griffins.com/events/expo16.asp#bus" target="_blank">here</a>)
+  (<a data-toggle="modal" data-target="#bus-modal">Click here</a> to check schedule)
 </h5>
 
 <%= form_tag(select_buses_companies_path, method: :post) do %>
@@ -32,3 +32,13 @@
   <%= submit_tag 'BACK', class: 'btn btn-primary', name: :step_back %>
   <%= submit_tag 'NEXT', class: 'btn btn-primary next' %>
 <% end %>
+
+<div class="modal fade" id="bus-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <iframe src="http://www.griffins.com/events/expo16.asp#bus" width="1000" height="580" frameborder="0" allowtransparency="true"></iframe> 
+      </div>
+    </div>
+  </div>
+</div>

@@ -37,7 +37,7 @@
     </div>
     <div class="input-row col-md-3">
       <%= f.label :zip_code, 'Zip Code:' %>
-      <%= f.text_field :zip_code, class: "form-control", required: true %>
+      <%= f.text_field :zip_code, class: "form-control", required: true, maxlength: 5 %>
     </div>
   </div>
   <div class="row input-row">
@@ -56,21 +56,26 @@
   <div class="row input-row">
     <%= label_tag :i_am_also_an_attendee, 'I am also an attendee', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= check_box_tag :i_am_also_an_attendee, nil, checked = session[:i_am_also_an_attendee] %>
+      <%= check_box_tag :i_am_also_an_attendee, nil, checked = session[:i_am_also_an_attendee].present? ? session[:i_am_also_an_attendee] : false %>
     </div>
   </div>
-  <div class="row input-row">
-    <%= label_tag :are_you_currently_a_customer, 'Are you currently a Griffin customer?', class: 'col-sm-3 control-label' %>
-    <div class="col-sm-9">
-      <%= check_box_tag :are_you_currently_a_customer, nil, checked = session[:are_you_currently_a_customer] %>
+  <% if @company.customer? %>
+    <div class="row input-row">
+      <%= label_tag :are_you_currently_a_customer, 'Are you currently a Griffin customer?', class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= radio_button_tag :are_you_currently_a_customer, 1, checked = session[:are_you_currently_a_customer].present? ? session[:are_you_currently_a_customer] : false, required: true %>
+        True
+        <%= radio_button_tag :are_you_currently_a_customer, 0, checked = !session[:are_you_currently_a_customer].present? ? session[:are_you_currently_a_customer] : false %>
+        False
+      </div>
     </div>
-  </div>
-  <div class="row input-row">
-    <%= f.label :account_number, 'Customer Number:', class: 'col-sm-3 control-label' %>
-    <div class="col-sm-9">
-      <%= f.text_field :account_number, class: "form-control" %>
+    <div class="row input-row">
+      <%= f.label :account_number, 'Customer Number:', class: 'col-sm-3 control-label' %>
+      <div class="col-sm-9">
+        <%= f.text_field :account_number, class: "form-control", maxlength: 6 %>
+      </div>
     </div>
-  </div>
+  <% end %>
   <br>
 
   <h3>Attendees</h3>

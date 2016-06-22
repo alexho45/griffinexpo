@@ -1,5 +1,5 @@
 <h4 class="bus-title accordion">
-  Bus Attendee Roster for <%= bus.title %> (<%= bus.event.full_name %>)
+  Bus Attendee Roster for <%= bus.title %> (<%= bus.event.try(:full_name) %>)
 </h4>
 
 <div class="accordion-content">
@@ -13,7 +13,7 @@
 
       <% bus.attendees.each do |attendee| %>
         <tr>
-          <td><%= attendee.company.name %></td>
+          <td><%= attendee.company.try(:name) %></td>
           <td><%= attendee.first_name %></td>
           <td><%= attendee.last_name %></td>
         </tr>

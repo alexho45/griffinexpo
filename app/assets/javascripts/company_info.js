@@ -98,4 +98,14 @@ $(function () {
     }
   });
 
+  $("#company_zip_code").maxlength({
+    counterContainer: $(".counter-container")
+  });
+  $('#company_zip_code').regexMask(/^\d+$/);
+
+  $("#company_account_number").maxlength({
+    counterContainer: $(".counter-container")
+  });
+  $('#company_account_number').regexMask(/^\d+$/);
+
 });
