@@ -60,5 +60,10 @@ class Event < ActiveRecord::Base
                       .includes(:attendees)
                       .map(&:attendees)
                       .reduce(:+)
+    update_checked_attendees
+  end
+
+  def update_checked_attendees
+    self.checked_attendees = self.checked_attendees & self.attendees
   end
 end

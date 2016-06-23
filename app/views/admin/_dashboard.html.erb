@@ -71,8 +71,54 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="checkins-summary">
+      Checkins Summary
+    </div>
+
+    <table style="width:100%">
+      <tbody>
+        <tr>
+          <td>
+            <h1><b><%= event.attendees.count %></b></h1>
+            <h4>Number of All Registered Attendees</h4>
+          </td>
+          <td>
+            <h1><b><%= event.checked_attendees.count %></b></h1>
+            <h4>Number of All Attendees Checked In</h4>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <h1><b><%= event_checked_attendees_count(event, :vendor) %></b></h1>
+            <h4>Number of Vendor Checked In Attendees</h4>
+          </td>
+          <td>
+            <h1><b><%= event_checked_attendees_count(event, :customer) %></b></h1>
+            <h4>Number of Customer Checked In Attendees</h4>
+            <br>
+            <h1>Seminars Checkins:</h1>
+            <% event.seminar_questions.map(&:title).each do |seminar| %>
+              <h2><%= seminar %>: <%= event.check_ins.where(seminar: seminar).count %></h2>
+            <% end %>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <h1><b><%= event_attendees_count(event, :vendor) - event_checked_attendees_count(event, :vendor) %></b></h1>
+            <h4>No Shows Attendees Vendor number</h4>
+          </td>
+          <td>
+            <h1><b><%= event_attendees_count(event, :customer) - event_checked_attendees_count(event, :customer) %></b></h1>
+            <h4>No Shows Attendees Customer number</h4>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br>
   </div>
 
 <% end %>
-
-
