@@ -4,6 +4,9 @@ class Question < ActiveRecord::Base
   has_many :questions_answers, dependent: :destroy
   accepts_nested_attributes_for :answers, reject_if: :all_blank, allow_destroy: true
 
+  has_many :custom_answers, through: :companies_answers, source: :answer
+  has_many :companies_answers, dependent: :destroy
+
   def self.generate_standard_questions(event)
     event_days_total = (event.to - event.from).to_i
     question_attend = Question.create(title: "Which days of the EXPO are you planning to attend", key_word: :days)

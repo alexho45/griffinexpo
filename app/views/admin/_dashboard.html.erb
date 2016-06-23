@@ -100,7 +100,9 @@
             <br>
             <h1>Seminars Checkins:</h1>
             <% event.seminar_questions.map(&:title).each do |seminar| %>
-              <h2><%= seminar %>: <%= event.check_ins.where(seminar: seminar).count %></h2>
+              <h2>
+                <%= seminar %>: <%= event.check_ins.where(seminar: seminar).count %>
+              </h2>
             <% end %>
           </td>
         </tr>

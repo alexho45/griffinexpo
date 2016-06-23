@@ -55,6 +55,13 @@ class Event < ActiveRecord::Base
     questions.where(seminar: true)
   end
 
+  def seminar_attendees_registered(seminar_name)
+    questions
+      .where(seminar: true)
+      .find_by(title: seminar_name)
+      .custom_answers
+  end
+
   def update_all_attendees
     self.attendees = companies
                       .includes(:attendees)
