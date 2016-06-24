@@ -1,5 +1,6 @@
 class CompaniesController < ApplicationController
   before_action :find_company
+  before_action :check_event
 
   # Common actions
 
@@ -144,6 +145,12 @@ class CompaniesController < ApplicationController
         else
           Company.new
         end
+    end
+
+    def check_event
+      if !@company.new_record? && !@company.select_event? && !@company.event.present?
+        new_registration
+      end
     end
 
     def update_company_session_attributes
