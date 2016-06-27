@@ -121,6 +121,14 @@ class Company < ActiveRecord::Base
     "#{city} #{us_state}"
   end
 
+  def has_overnight_buses?
+    has = false
+    self.event.buses.includes(:attendees).where(overnight: true).each do |bus|
+      has = true if (bus.attendees & self.attendees).any?
+    end
+    has
+  end
+
 private
 
   def attendees_changed(attendee)

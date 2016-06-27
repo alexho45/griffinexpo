@@ -56,17 +56,17 @@
   <div class="row input-row">
     <%= label_tag :i_am_also_an_attendee, 'I am also an attendee', class: 'col-sm-3 control-label' %>
     <div class="col-sm-9">
-      <%= check_box_tag :i_am_also_an_attendee, nil, checked = session[:i_am_also_an_attendee].present? ? session[:i_am_also_an_attendee] : false %>
+      <%= check_box_tag :i_am_also_an_attendee, nil, checked = session.has_key?(:i_am_also_an_attendee) ? session[:i_am_also_an_attendee] : false %>
     </div>
   </div>
   <% if @company.customer? %>
     <div class="row input-row">
       <%= label_tag :are_you_currently_a_customer, 'Are you currently a Griffin customer?', class: 'col-sm-3 control-label' %>
       <div class="col-sm-9">
-        <%= radio_button_tag :are_you_currently_a_customer, 1, checked = session[:are_you_currently_a_customer].present? ? session[:are_you_currently_a_customer] : false, required: true %>
-        True
-        <%= radio_button_tag :are_you_currently_a_customer, 0, checked = !session[:are_you_currently_a_customer].present? ? session[:are_you_currently_a_customer] : false %>
-        False
+        <%= radio_button_tag :are_you_currently_a_customer, 1, session.has_key?(:are_you_currently_a_customer) ? session[:are_you_currently_a_customer] : false, required: true %>
+        YES
+        <%= radio_button_tag :are_you_currently_a_customer, 0, session.has_key?(:are_you_currently_a_customer) ? !session[:are_you_currently_a_customer] : false %>
+        NO
       </div>
     </div>
     <div class="row input-row">

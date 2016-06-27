@@ -2,6 +2,21 @@ ActiveAdmin.register Question do
   permit_params Question.column_names.map(&:to_sym),
                 answers_attributes: [:id, :value, :title, :_destroy]
 
+  index_unused_fields = ["id", "updated_at", "created_at"]
+  index do
+    selectable_column
+    id_column
+    (Question.column_names - index_unused_fields).each do |c|
+      column c.to_sym
+    end
+    column "Event" do |question|
+      if question.event
+        link_to question.event.title, admin_event_path(question.event)
+      end
+    end
+    actions
+  end
+
   show do
     attributes_table do
       default_attribute_table_rows.each do |field|
@@ -24,7 +39,6 @@ ActiveAdmin.register Question do
         f.input c.to_sym
       end
     end
-
 
     # Partials?
     f.has_many :answers do |answer|

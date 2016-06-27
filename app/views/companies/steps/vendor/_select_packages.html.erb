@@ -10,6 +10,7 @@
     </h4>
     Number of Booths Required:
     <%= number_field_tag "packages[#{package.id}][quantity]", packages_event.try(:quantity) || 1, requred: true, min: 1 %>
+    * Subject to Approval By Griffin Management
     <br>
     Do you require electricity for your booth:
     <%= radio_button_tag "packages[#{package.id}][electricity]", 1, checked = packages_event.try(:electricity?) || true %> Yes

@@ -25,15 +25,17 @@ $(function () {
     $('.next').prop('disabled', show);
   };
 
-  var alreadyDone = $('#already_done').val() == 'true';
-  if (!alreadyDone)
+  if ($('.checked_buses').length > 0)
     checkAvailability();
 
   $(document).on('change', '.bus-checkbox', function () {
+    $('.checked_buses').prop('checked', true);
     checkAvailability();
   });
 
   $(document).on('change', '[name="checked_buses"]', function () {
+    if (!$('.checked_buses').is(':checked'))
+      $('.bus-checkbox').prop('checked', false);
     checkAvailability();
   });
 

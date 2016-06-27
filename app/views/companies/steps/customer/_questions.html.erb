@@ -23,7 +23,7 @@
         <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
           <td>
             <% question.answers.each_with_index do |possible_answer, index| %>
-              <%= radio_button_tag "questions[#{question.id}][#{attendee.id}]", possible_answer.id, checked = company_answer_radio(@company, possible_answer, attendee).present? ? true : (index == 0 ? true : false) %>
+              <%= radio_button_tag "questions[#{question.id}][#{attendee.id}]", possible_answer.id, checked = company_answer_radio(@company, possible_answer, attendee).present? ? true : false, required: true %>
               <%= possible_answer.title %>
               <br>
             <% end %>
@@ -35,7 +35,7 @@
           </td>
         <% end %>
         <td>
-          <% @company.event.questions.where(seminar: true).each_with_index do |question, index|%>
+          <% @company.event.questions.where(seminar: true).each_with_index do |question, index| %>
             <%= check_box_tag "questions_seminars[#{question.id}][#{attendee.id}]", true, checked = company_answer(@company, question, attendee).present? ? true : false %>
             <%= question.title %>
             <br>

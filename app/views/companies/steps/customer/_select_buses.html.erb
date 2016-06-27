@@ -9,20 +9,22 @@
 
 <%= form_tag(select_buses_companies_path, method: :post) do %>
   <h4>
-    <%= radio_button_tag "checked_buses", true, checked = @company.event.buses.joins(:attendees).any? || true, class: 'checked_buses' %> YES
+    <%= radio_button_tag "checked_buses", true, checked = session.has_key?(:buses_selected) ? session[:buses_selected] : true, class: 'checked_buses' %> YES
   </h4>
   <%= hidden_field_tag :attendees_count, @company.attendees.count %>
-  <%= hidden_field_tag :already_done, @company.event.buses.joins(:attendees).any? %>
+  <%= hidden_field_tag :already_done %>
   <% @company.event.buses.each_with_index do |bus, index| %>
     <h5>
       &emsp;
       <%= check_box_tag "buses[#{bus.id}][]", bus.id, checked = (bus.attendees & @company.attendees).any?, data: { seats: bus.available_seats }, class: 'bus-checkbox' %>
-      <%= "[MA EXPO BUS ##{index+1} - #{bus.available_seats} seats remaining]" %>
-      <% if (bus.attendees & @company.attendees).any? %> (<%= (bus.attendees & @company.attendees).size %> of your attendees) <% end %>
+      <%= "#{bus.title} - #{bus.available_seats} seats remaining" %>
+      <% if (bus.attendees & @company.attendees).any? %>
+        (<%= (bus.attendees & @company.attendees).size %> of your attendees)
+      <% end %>
     </h5>
   <% end %>
   <h4>
-    <%= radio_button_tag "checked_buses", false, checked = !@company.event.buses.joins(:attendees).any? || false %> NO (We will have our own transportation)
+    <%= radio_button_tag "checked_buses", false, checked = session.has_key?(:buses_selected) ? !session[:buses_selected] : false %> NO (We will have our own transportation)
   </h4>
 
   <div class="buses-error">

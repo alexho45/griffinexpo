@@ -25,7 +25,7 @@
 
 .accordion-content.show {
   opacity: 1;
-  max-height: 1000px;
+  max-height: 100000px;
 }
 
 .accordion:after {
@@ -90,3 +90,12 @@
   padding: 10px;
   font-size: 14px;
 }
+
+.accordion-admin-panel:after {
+  margin-top: -42px !important;
+}
+
+.accordion-admin-panel-show:after {
+  margin-top: -81px !important;
+}
+

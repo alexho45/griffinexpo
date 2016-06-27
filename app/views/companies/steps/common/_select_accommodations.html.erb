@@ -5,11 +5,13 @@
   <% Hotel.first(1).each do |hotel| %>
     <% hotels_event = HotelsEvent.find_by(company_id: @company.id, event_id: @company.event.id, hotel_id: hotel.id) %>
     <h4>
-      <%= radio_button_tag "hotels[#{hotel.id}][checked]", true, checked = session[:accomodations_answer_checked] %> Yes
+      <%= radio_button_tag "hotels[#{hotel.id}][checked]", true, checked = session.has_key?(:accomodations_answer_checked) ? session[:accomodations_answer_checked] : true %> Yes
     </h4>
-    <h4>
-      <%= radio_button_tag "hotels[#{hotel.id}][checked]", false, checked = !session[:accomodations_answer_checked] %> No
-    </h4>
+    <% if !@company.has_overnight_buses? %>
+      <h4>
+        <%= radio_button_tag "hotels[#{hotel.id}][checked]", false, checked = session.has_key?(:accomodations_answer_checked) ? !session[:accomodations_answer_checked] : false %> No
+      </h4>
+    <% end %>
 
     If yes, how many rooms will be required?:
     <%= number_field_tag "hotels[#{hotel.id}][quantity]", hotels_event.try(:quantity) || 1, required: true, min: 0 %>
@@ -19,7 +21,9 @@
 
     <h4>
       Griffin has partnered with Sheraton Hotels in Springfield MA for the EXPO you are registering for at discount/corporate pricing. Hotel room accomodations are $<%= hotel.price %>/night. Please click on the link below to book your accomodations:
-      <a href=<%= "http://#{hotel.hyperlink}" %> target="_blank"><%= hotel.hyperlink %></a>
+      <a href=<%= "http://#{hotel.hyperlink}" %> target="_blank"><%= hotel.link_description %></a>
+      <br>
+      <%= hotel.additional_info %>
     </h4>
 
   <% end %>

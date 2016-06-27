@@ -9,6 +9,7 @@ class CompaniesController < ApplicationController
     session.delete(:accomodations_answer_checked)
     session.delete(:are_you_currently_a_customer)
     session.delete(:i_am_also_an_attendee)
+    session.delete(:buses_selected)
     redirect_to root_path
   end
 
@@ -138,7 +139,7 @@ class CompaniesController < ApplicationController
   private
     def find_company
       @company =
-        if session[:company_access_token].present? && Company.exists?(access_token: session[:company_access_token])
+        if session.has_key?(:company_access_token) && Company.exists?(access_token: session[:company_access_token])
           Company
             .includes(:event ,:attendees, :packages, :hotels, :answers)
             .find_by(access_token: session[:company_access_token])
@@ -160,6 +161,8 @@ class CompaniesController < ApplicationController
       else
         session[:are_you_currently_a_customer] = true
       end
+      puts "HUI"*100
+      puts session[:are_you_currently_a_customer]
 
       if !params[:i_am_also_an_attendee].present? || params[:i_am_also_an_attendee] == "0"
         session[:i_am_also_an_attendee] = false
@@ -222,10 +225,12 @@ class CompaniesController < ApplicationController
     end
 
     def create_buses_events
+      session[:buses_selected] = false
       @company.event.buses.each do |bus|
-        bus.attendees.destroy_all
+        bus.attendees -= @company.attendees
       end
       if params[:checked_buses].present? && params[:checked_buses] == "true"
+        session[:buses_selected] = true
         attendees = @company.attendees.dup
         params[:buses].each do |bus|
           bus = Bus.find(bus.first.to_i)

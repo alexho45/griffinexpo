@@ -7,8 +7,13 @@ class Question < ActiveRecord::Base
   has_many :custom_answers, through: :companies_answers, source: :answer
   has_many :companies_answers, dependent: :destroy
 
+  has_one :event, :through => :questions_event
+  has_one :questions_event, dependent: :destroy
+  accepts_nested_attributes_for :event, reject_if: :all_blank, allow_destroy: true
+
   def self.generate_standard_questions(event)
-    event_days_total = (event.to - event.from).to_i
+    event.questions.destroy_all
+    event_days_total = (event.to - event.from).to_i + 1
     question_attend = Question.create(title: "Which days of the EXPO are you planning to attend", key_word: :days)
     question_attend_lunch = Question.create(title: "Do you plan on attending our expo lunch?", key_word: :lunch)
     event_days_total.times do |day|
@@ -17,6 +22,10 @@ class Question < ActiveRecord::Base
       if day > 0
         question_attend.answers << Answer.create(title: "Day #{day} & #{day+1}")
         question_attend_lunch.answers << Answer.create(title: "Day #{day} & #{day+1}")
+      end
+      if day > 1
+        question_attend.answers << Answer.create(title: "Day #{day-1} & #{day} & #{day+1}")
+        question_attend_lunch.answers << Answer.create(title: "Day #{day-1} & #{day} & #{day+1}")
       end
     end
     question_attend_lunch.answers << Answer.create(title: "None")
