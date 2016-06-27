@@ -15,7 +15,14 @@
         <%= hidden_field_tag "attendees[#{attendee.id}]", nil %>
         <%= check_box_tag "attendees[#{attendee.id}]", nil, checked = checked_attendees.include?(attendee) %>
       </td>
-      <td><%= attendee.checked_seminars %></td>
+      <td>
+        <% @event.seminar_questions.each do |seminar| %>
+          <%= hidden_field_tag "seminars[#{attendee.id}][#{seminar.id}]", nil %>
+          <%= check_box_tag "seminars[#{attendee.id}][#{seminar.id}]", nil, checked = CheckIn.find_by(event_id: @event.id, seminar: seminar.title, attendee_id: attendee.id).present? %>
+          <%= seminar.title %>
+          <br>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

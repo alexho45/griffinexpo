@@ -6,6 +6,24 @@ class CheckinsController < ApplicationController
       attendees_to_remove = Attendee.where(id: params[:attendees].map{|k,v| k if !v.present? })
       event = Event.find(params[:event_id])
       event.checked_attendees = event.checked_attendees + attendees_to_add - attendees_to_remove
+
+      if params[:seminars].present?
+        params[:seminars].each do |seminar_checkin|
+          attendee = Attendee.find(seminar_checkin.first)
+          seminars_checked = seminar_checkin.second.map{|k,v| k if v == "on" }.compact
+          if seminars_checked.any?
+            attendee.check_ins.where.not(seminar: nil).destroy_all
+            seminar_checkin.second.each do |seminar_id, value|
+              seminar = event.seminar_questions.select{|s| s.id.to_s == seminar_id }.first
+              if value == "on" && seminar.present?
+                CheckIn.create(attendee_id: attendee.id,
+                               event_id:    event.id,
+                               seminar:     seminar.title)
+              end
+            end
+          end
+        end
+      end
     end
     redirect_to admin_checkins_path(event_id: params[:event_id], company_id: params[:company_id])
   end
