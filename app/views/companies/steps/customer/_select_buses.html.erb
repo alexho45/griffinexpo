@@ -16,7 +16,7 @@
   <% @company.event.buses.each_with_index do |bus, index| %>
     <h5>
       &emsp;
-      <%= check_box_tag "buses[#{bus.id}][]", bus.id, checked = (bus.attendees & @company.attendees).any?, data: { seats: bus.available_seats }, class: 'bus-checkbox' %>
+      <%= check_box_tag "buses[#{bus.id}][]", bus.id, checked = (bus.attendees & @company.attendees).any?, data: { seats: bus.available_seats, overnight: bus.overnight }, class: 'bus-checkbox' %>
       <%= "#{bus.title} - #{bus.available_seats} seats remaining" %>
       <% if (bus.attendees & @company.attendees).any? %>
         (<%= (bus.attendees & @company.attendees).size %> of your attendees)
@@ -28,7 +28,11 @@
   </h4>
 
   <div class="buses-error">
-    You have selected a bus that will not accommodate the number of attendees you have, please select another
+    You have elected for transportation to and from the EXPO but have not selected a bus, please choose the appropiate bus before proceeding
+  </div>
+
+  <div class="overnight-buses">
+    You have elected for an overnight bus for transportation.  This transport election requires that you register for lodging in the following step.  Please remember to book the appropriate lodging
   </div>
 
   <%= submit_tag 'BACK', class: 'btn btn-primary', name: :step_back %>

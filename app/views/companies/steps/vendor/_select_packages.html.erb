@@ -6,7 +6,7 @@
     <% packages_event = PackagesEvent.find_by(company_id: @company.id, event_id: @company.event.id, package_id: package.id) %>
     <h4>
       <%= radio_button_tag "packages[#{package.id}][checked]", package.id, checked = true %>
-      <%= package.full_name.html_safe %>
+      <%= package.full_name_without_price.html_safe %>
     </h4>
     Number of Booths Required:
     <%= number_field_tag "packages[#{package.id}][quantity]", packages_event.try(:quantity) || 1, requred: true, min: 1 %>
