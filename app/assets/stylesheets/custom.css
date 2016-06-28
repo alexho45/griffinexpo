@@ -48,3 +48,11 @@ body {
 .modal-content {
   width: 1020px;
 }
+
+.app-logo {
+  padding: 0 !important;
+}
+
+.app-content {
+  padding-left: 30px !important;
+}
