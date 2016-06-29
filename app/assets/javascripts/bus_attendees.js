@@ -9,7 +9,10 @@ $(function () {
       checkedBuses.each( function (index, bus) {
         availableSeats += parseInt(bus.dataset.seats);
       });
-      showError(availableSeats < attendeesCount);
+
+      var needAdditionalBus = availableSeats < attendeesCount;
+      $('.bus-checkbox:not(:checked)').prop('disabled', !needAdditionalBus);
+      showError(needAdditionalBus);
       showOvernightWarning(checkOvernightBuses());
     }
     else {

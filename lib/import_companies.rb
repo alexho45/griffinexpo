@@ -32,7 +32,7 @@ module ImportCompanies
       #                             company_type:         company_type,
       #                             imported:             true)
       # end
-      company = Company.find_by(name: hash[:name])
+      company = Company.where('lower(name) = ?', hash[:name].downcase).first
       if company.present?
         company.update_attributes(warehouse:      hash[:warehouse],
                                   account_number: hash[:account_number])
