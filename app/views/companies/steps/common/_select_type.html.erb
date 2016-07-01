@@ -4,12 +4,12 @@
 
 <%= form_for @company, { url: select_type_companies_path, method: :post } do |f| %>
   <h4>
-    <%= f.radio_button :company_type, :vendor, checked: false, required: true %> 
-    <%= label :company_type_vendor, 'Vendor/Exhibitor' %>
+    <%= f.radio_button :company_type, :customer, checked: false %>
+    <%= label :company_type_customer, 'Customer/Attendee' %>
   </h4>
   <h4>
-  <%= f.radio_button :company_type, :customer, checked: false %>
-  <%= label :company_type_customer, 'Customer/Attendee' %>
+    <%= f.radio_button :company_type, :vendor, checked: false, required: true %> 
+    <%= label :company_type_vendor, 'Vendor/Exhibitor' %>
   </h4>
   <%= f.hidden_field :process_step, value: :select_event %>
   <br>

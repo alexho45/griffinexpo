@@ -7,7 +7,7 @@ class ConfirmationMailer < ActionMailer::Base
     @company = company
     mail(
       to:      @company.representative_email,
-      subject: "Griffin EXPO successfull registration"
+      subject: "Griffin EXPO successful registration"
     )
   end
 

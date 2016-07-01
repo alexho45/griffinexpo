@@ -86,12 +86,12 @@ class Company < ActiveRecord::Base
   def complete_registration
     self.set_step(:confirmation)
     self.update_attribute(:confirmation_token, rand(36**8).to_s(36))
-    # send_confirmations
+    send_confirmation
   end
 
-  def send_confirmations
-    ConfirmationMailer.company_confirmation(self).deliver_now
-    self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
+  def send_confirmation
+    # ConfirmationMailer.company_confirmation(self).deliver_now if self.representative_email.present?
+    # self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
   end
 
   %w(lunch coctail food_allergies).each do |key_word|
