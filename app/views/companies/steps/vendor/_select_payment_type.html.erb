@@ -4,23 +4,23 @@ Please select your payment method:
 
 <%= form_for @company, url: select_accommodations_companies_path, method: :post do |f| %>
   <h4 data-toggle="popover" data-trigger="hover" data-content="You will be redirected to credit card payment page where you should enter your credit card info." class="payment-option">
-    <%= f.radio_button :payment_type, :credit_card %>
+    <%= f.radio_button :payment_type, :credit_card, required: true %>
     Credit Card
   </h4>
   <div class="credit-card-redirect">
     <%= link_to 'Proceed to pay with credit card', credit_card_payments_path(company_access_token: @company.access_token), target: "_blank" %>
     (You can do it later, you will receive link in confirmation email)
   </div>
-  <h4 data-toggle="popover" data-trigger="hover" data-content="Please mail check to: <br>Griffin Greenhouse <br>ATT: EXPO REGISTRATION <br>1619 Main St <br>Tewksbury, MA 01876" class="payment-option">
+  <h4 data-toggle="popover" data-trigger="hover" data-content="Please mail check to: <br>Griffin Greenhouse <br>ATT: Danielle Muse <br>1619 Main St <br>Tewksbury, MA 01876" class="payment-option">
     <%= f.radio_button :payment_type, :check %>
     Check
   </h4>
-  <h4 data-toggle="popover" data-trigger="hover" data-content="Please email Suzie Gonzalez <br>Email address: sgonzalez@griffinmail.com" class="payment-option">
+  <h4 data-toggle="popover" data-trigger="hover" data-content="Please email Danielle Muse <br>Email address: dmuse@griffinmail.com" class="payment-option">
     <%= f.radio_button :payment_type, :debit_memo %>
     Debit Memo
   </h4>
-  <h4 data-toggle="popover" data-trigger="hover" data-content=" For all other payment methods, please contact Lisa Hyslip at 800-888-0054" class="payment-option">
-    <%= f.radio_button :payment_type, :other, checked: true %>
+  <h4 data-toggle="popover" data-trigger="hover" data-content=" For all other payment methods, please contact Lisa Hyslip at 978-807-0787" class="payment-option">
+    <%= f.radio_button :payment_type, :other %>
     Other
   </h4>
 

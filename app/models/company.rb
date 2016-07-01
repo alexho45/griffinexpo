@@ -129,6 +129,14 @@ class Company < ActiveRecord::Base
     has
   end
 
+  def has_buses?
+    has = false
+    self.event.buses.includes(:attendees).each do |bus|
+      has = true if (bus.attendees & self.attendees).any?
+    end
+    has
+  end
+
 private
 
   def attendees_changed(attendee)

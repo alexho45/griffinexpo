@@ -9,7 +9,7 @@
 <%= form_tag(select_event_companies_path, method: :post) do %>
   <% Event.future_events.each_with_index do |event, index| %>
     <h4>
-      <%= radio_button_tag :event_id, event.id, checked = index == 0 %> 
+      <%= radio_button_tag :event_id, event.id, checked = false, required: true %> 
       <%= event.full_name %>
     </h4>
   <% end %>

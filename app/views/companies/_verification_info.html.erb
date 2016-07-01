@@ -15,14 +15,18 @@
     <% end %>
     <br>Payment method = <%= @company.payment_type.titleize %>
   <% else %>
-    Bus Transportation Required = Yes
     <br>
-    Bus/Route Assigned = 
-    <% @company.event.buses.each_with_index do |bus, index| %>
-      <% if (bus.attendees & @company.attendees).any? %>
-        <%= "MA EXPO BUS ##{index+1}" %>
-        <%= ", " if index+1 != @company.event.buses.size %>
+    <% if @company.has_buses? %>
+      Bus Transportation Required = Yes
+      <br>
+      Bus/Route Assigned = 
+      <% @company.event.buses.each do |bus| %>
+        <% if (bus.attendees & @company.attendees).any? %>
+          <%= "#{bus.title} |" %>
+        <% end %>
       <% end %>
+    <% else %>
+      Bus Transportation Required = No
     <% end %>
   <% end %>
 
