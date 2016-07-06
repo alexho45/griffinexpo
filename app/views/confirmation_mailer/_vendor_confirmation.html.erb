@@ -42,8 +42,9 @@
 <br>
 <% if @company.check? %>
   Please mail check to Griffin Greenhouse ATT: Danielle Muse 1619 Main St Tewksbury MA 01876
-<% elsif @company.debit_memo? %>
-  Please Email Danielle Muse at dmuse@griffinmail.com to complete payment transaction
+<% elsif @company.debit_memo? || @company.credit_card? %>
+  Please Email Danielle Muse at dmuse@griffinmail.com
 <% elsif @company.other? %>
   For other payment methods, please contact Lisa Hyslip at 978-807-0787
 <% end %>
+to complete payment transaction

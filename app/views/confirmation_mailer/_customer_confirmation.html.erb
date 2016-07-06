@@ -14,14 +14,51 @@
 <br>
 <b>Expo attending:</b> <%= "#{@company.event.title} - #{@company.event.from.strftime("%d %b")} - #{@company.event.to.strftime("%d %b")} in #{@company.event.location}" %>
 <br>
-<b>Which days are you attending?:</b> <%= @company.days_answers %>
-<br>
-<b>Do you plan on attending the reception <%= @company.event.from.strftime("%A") %> night (<%= "#{@company.event.from.day}/#{@company.event.from.month}" %>)?: <%= @company.has_overnight_buses? ? "YES" : "NO" %></b>
-<br>
-<% @company.attendees.each_with_index do |attendee, index| %>
-  <b>Attendee <%= index + 1 %>:</b> <%= attendee.full_name %>
-  <br>
-<% end %>
+
+<table class="table-bordered questions-table">
+  <tr>
+    <th>Attendee</th>
+    <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
+      <th><%= question.title %></th>
+    <% end %>
+    <% @company.event.questions.where(text_field: true).each do |question| %>
+      <th><%= question.title %></th>
+    <% end %>
+    <th>
+      What seminars are you planning to attend? Please select from the list:
+    </th>
+  </tr>
+
+  <% @company.attendees.each do |attendee| %>
+    <tr>
+      <td><%= attendee.full_name %></td>
+      <% @company.event.questions.where(text_field: false, seminar: false).each do |question| %>
+        <td>
+          <% question.answers.each_with_index do |possible_answer, index| %>
+            <% if company_answer_radio(@company, possible_answer, attendee).present? %>
+              <%= possible_answer.title %>
+            <% end %>
+          <% end %>
+        </td>
+      <% end %>
+      <% @company.event.questions.where(text_field: true).each do |question| %>
+        <td>
+          <%= company_answer(@company, question, attendee).answer.value %>
+        </td>
+      <% end %>
+      <td>
+        <% @company.event.questions.where(seminar: true).each_with_index do |question, index| %>
+          <% if company_answer(@company, question, attendee).present? %>
+            <%= question.title %>
+            <br>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
+
 <br>
 <b>Registration Confirmation ID:</b> <%= @company.try(:confirmation_token).try(:upcase) %>
 <br>

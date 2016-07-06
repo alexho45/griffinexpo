@@ -2,6 +2,7 @@
 
 class ConfirmationMailer < ActionMailer::Base
   default from: 'Support Team <exposupport@griffinmail.com>'
+  helper CompaniesHelper
 
   def company_confirmation(company)
     @company = company
