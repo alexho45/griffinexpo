@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class ConfirmationMailer < ActionMailer::Base
-  default from: 'Support Team <exposupport@griffinmail.com>'
+  default from: 'Support Team <exporeg@griffinmail.com>'
   helper CompaniesHelper
 
   def company_confirmation(company)
