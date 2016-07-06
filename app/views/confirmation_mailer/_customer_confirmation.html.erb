@@ -1,0 +1,41 @@
+<b>Company:</b> <%= @company.name %>
+<br>
+<b>Customer number:</b> <%= @company.account_number %>
+<br>
+<b>Contact name:</b> <%= @company.registrant %>
+<br>
+<b>Phone number:</b> <%= @company.representative_phone %> 
+<br>
+<b>Email address:</b> <%= @company.representative_email %>
+<br>
+<b>Griffin customer?:</b> <%= @company.account_number != 9999 ? "YES" : "NO" %> 
+<br>
+<b>Address:</b> <%= "#{@company.address} #{@company.city} #{@company.us_state} #{@company.zip_code}" %>
+<br>
+<b>Expo attending:</b> <%= "#{@company.event.title} - #{@company.event.from.strftime("%d %b")} - #{@company.event.to.strftime("%d %b")} in #{@company.event.location}" %>
+<br>
+<b>Which days are you attending?:</b> <%= @company.days_answers %>
+<br>
+<b>Do you plan on attending the reception <%= @company.event.from.strftime("%A") %> night (<%= "#{@company.event.from.day}/#{@company.event.from.month}" %>)?: <%= @company.has_overnight_buses? ? "YES" : "NO" %></b>
+<br>
+<% @company.attendees.each_with_index do |attendee, index| %>
+  <b>Attendee <%= index + 1 %>:</b> <%= attendee.full_name %>
+  <br>
+<% end %>
+<br>
+<b>Registration Confirmation ID:</b> <%= @company.try(:confirmation_token).try(:upcase) %>
+<br>
+<b>Transportation:</b> <%= @company.has_buses? ? "YES" : "NO" %>
+<br>
+<b>BUS ID:</b>
+  <% @company.event.buses.each do |bus| %>
+    <% if (bus.attendees & @company.attendees).any? %>
+      <%= "#{bus.title} |" %>
+    <% end %>
+  <% end %>
+<br>
+<br>
+<b>LODGING INFO:</b> <%= Hotel.first.name %>, <%= @company.hotels_events.sum(:quantity) %> of Rooms Required/Booked
+<br>
+<br>
+

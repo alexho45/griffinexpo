@@ -90,11 +90,11 @@ class Company < ActiveRecord::Base
   end
 
   def send_confirmation
-    # ConfirmationMailer.company_confirmation(self).deliver_now if self.representative_email.present?
+    ConfirmationMailer.company_confirmation(self).deliver_now if self.representative_email.present?
     # self.attendees.each {|attendee| ConfirmationMailer.attendee_confirmation(attendee).deliver_now }
   end
 
-  %w(lunch coctail food_allergies).each do |key_word|
+  %w(days lunch coctail food_allergies).each do |key_word|
     define_method("#{key_word}_answers") do
       companies_answers
         .select{|ca| ca.question_id == event.send("#{key_word}_question").id }

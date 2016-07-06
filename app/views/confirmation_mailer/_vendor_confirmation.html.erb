@@ -1,0 +1,49 @@
+<b>Company:</b> <%= @company.name %>
+<br>
+<b>Customer number:</b> <%= @company.account_number %>
+<br>
+<b>Contact name:</b> <%= @company.registrant %>
+<br>
+<b>Phone number:</b> <%= @company.representative_phone %> 
+<br>
+<b>Email address:</b> <%= @company.representative_email %>
+<br>
+<b>Address:</b> <%= "#{@company.address} #{@company.city} #{@company.us_state} #{@company.zip_code}" %>
+<br>
+<b>Expo attending:</b> <%= "#{@company.event.title} - #{@company.event.from.strftime("%d %b")} - #{@company.event.to.strftime("%d %b")} in #{@company.event.location}" %>
+<br>
+<% @company.attendees.each_with_index do |attendee, index| %>
+  <b>Attendee <%= index + 1 %>:</b> <%= attendee.full_name %>
+  <br>
+<% end %>
+<br>
+<b>Registration Confirmation ID:</b> <%= @company.try(:confirmation_token).try(:upcase) %>
+<br>
+<br>
+<b>LODGING INFO:</b> <%= Hotel.first.name %>, <%= @company.hotels_events.sum(:quantity) %> of Rooms Required/Booked
+<br>
+<br>
+<b>BOOTH PACKAGE:</b> <%= "#{Package.first.name} (#{Package.first.description})" %>
+<br>
+<br>
+<b>QUANTITY OF BOOTHS REQUIRED:</b> <%= @company.packages_events.sum(:quantity) %>
+<br>
+<br>
+<b>ELECTRICITY REQUIRED:</b> <%= !!@company.packages_events.try(:first).try(:electricity) ? "YES" : "NO" %>
+<br>
+<br>
+<b>PAYMENT METHOD:</b> <%= @company.payment_type.split("_").join(" ").upcase %>
+<br>
+<br>
+<b>TOTAL AMOUNT DUE:</b> <%= @company.subtotal %>
+<br>
+<br>
+<b>FOR PAYMENT VIA</b> <%= @company.payment_type.split("_").join(" ").upcase %>,
+<br>
+<% if @company.check? %>
+  Please mail check to Griffin Greenhouse ATT: Danielle Muse 1619 Main St Tewksbury MA 01876
+<% elsif @company.debit_memo? %>
+  Please Email Danielle Muse at dmuse@griffinmail.com to complete payment transaction
+<% elsif @company.other? %>
+  For other payment methods, please contact Lisa Hyslip at 978-807-0787
+<% end %>

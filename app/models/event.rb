@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
     Question.generate_standard_questions(self)
   end
 
-  %w(lunch coctail food_allergies).each do |key_word|
+  %w(days lunch coctail food_allergies).each do |key_word|
     define_method("#{key_word}_question") do
       questions.find_by(key_word: key_word)
     end
