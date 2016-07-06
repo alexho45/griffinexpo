@@ -51,6 +51,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rack-handlers'
 gem 'puma'
 
+gem 'ruby-ntlm'
+
 group :development, :test do
   gem 'pry-byebug'
 end
